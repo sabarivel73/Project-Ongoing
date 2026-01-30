@@ -1,0 +1,13 @@
+package code.backend.repository;
+
+import code.backend.entity.rootUser;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+public interface rootUserRepo extends JpaRepository<rootUser,Integer> {
+    @Query(value = "select id from root_user where name like :name_value",nativeQuery = true)
+    Integer rootUserID(@Param("name_value") String name);
+    @Query(value = "select password from root_user where name like :name_value",nativeQuery = true)
+    String login(@Param("name_value") String name);
+}

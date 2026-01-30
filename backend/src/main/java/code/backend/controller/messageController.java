@@ -1,0 +1,42 @@
+package code.backend.controller;
+
+import code.backend.entity.groupMessage;
+import code.backend.entity.message;
+import code.backend.service.messageService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
+
+import static code.backend.constants.APIDictionary.*;
+
+@RestController
+@RequestMapping(API+ENDPOINT_5)
+public class messageController {
+    @Autowired private messageService ms;
+    @PostMapping public ResponseEntity<Object> send_message(@RequestParam Integer sender_id, @RequestParam Integer receiver_id, @RequestParam(required = false) String content, @RequestParam(required = false) MultipartFile attachment) throws IOException {
+        return new ResponseEntity<>(ms.send_message(sender_id, receiver_id, content, attachment), HttpStatus.CREATED);
+    }
+    @GetMapping public ResponseEntity<List<message>> get_messages(@RequestParam Integer sender_id,@RequestParam Integer receiver_id) {
+        return new ResponseEntity<>(ms.get_messages(sender_id,receiver_id),HttpStatus.OK);
+    }
+    @GetMapping(ENDPOINT_6) public ResponseEntity<byte[]> download_file(@RequestParam String key) throws IOException {
+        byte[] value = ms.download_file(key);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        httpHeaders.setContentDispositionFormData("file",key);
+        return new ResponseEntity<>(value,httpHeaders,HttpStatus.OK);
+    }
+    @DeleteMapping public ResponseEntity<String> delete_message(@RequestParam Integer id) {
+        return new ResponseEntity<>(ms.delete_message(id),HttpStatus.OK);
+    }
+    @GetMapping(ENDPOINT_10) public ResponseEntity<List<message>> find_sender(@RequestParam Integer sender_id) {
+        return new ResponseEntity<>(ms.find_sender(sender_id),HttpStatus.OK);
+    }
+}

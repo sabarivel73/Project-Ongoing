@@ -1,0 +1,17 @@
+package code.backend.constants;
+
+public class APIDictionary {
+    public static final String API = "/be";
+    public static final String ENDPOINT_1= "/rootUser";
+    public static final String ENDPOINT_2 = "/domain";
+    public static final String ENDPOINT_3 = "/iamUser";
+    public static final String ENDPOINT_4 = "/login";
+    public static final String ENDPOINT_5 = "/message";
+    public static final String ENDPOINT_6 = "/download";
+    public static final String ENDPOINT_7 = "/group";
+    public static final String ENDPOINT_8 = "/subscriber";
+    public static final String ENDPOINT_9 = "/group_message";
+    public static final String ENDPOINT_10 = "/finder";
+    public static final String ENDPOINT_11 = "/subscriber_group";
+    public static final String ENDPOINT_12 = "/leave_group";
+}
