@@ -10,11 +10,11 @@ public class rootUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Integer id;
+    private Integer id;
     @Column(name = "name")
-    String name;
+    private String name;
     @Column(name = "password")
-    String password;
+    private String password;
     @Column(name = "email")
-    String email;
+    private String email;
 }

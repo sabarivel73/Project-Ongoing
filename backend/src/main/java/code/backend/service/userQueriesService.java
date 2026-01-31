@@ -1,6 +1,7 @@
 package code.backend.service;
 
 import code.backend.entity.userQueries;
+import code.backend.entity.userdomainQueriesResponse;
 import code.backend.repository.userQueriesRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class userQueriesService {
         uqr.deleteById(id);
         return "Query deleted successfully";
     }
-    public List<userQueries> get_domainQueries(String domain_name) {
+    public List<userdomainQueriesResponse> get_domainQueries(String domain_name) {
         return uqr.get_domainQueries(domain_name);
     }
     public String update_response(Integer id,String response) {

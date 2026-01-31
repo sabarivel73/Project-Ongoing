@@ -1,6 +1,7 @@
 package code.backend.controller;
 
 import code.backend.entity.userQueries;
+import code.backend.entity.userdomainQueriesResponse;
 import code.backend.service.userQueriesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class userQueriesController {
     @DeleteMapping public ResponseEntity<String> delete_query(@RequestParam Integer id) {
         return new ResponseEntity<>(uqs.delete_query(id),HttpStatus.OK);
     }
-    @GetMapping(ENDPOINT_1) public ResponseEntity<List<userQueries>> get_domainQueries(@RequestParam String domain_name) {
+    @GetMapping(ENDPOINT_1) public ResponseEntity<List<userdomainQueriesResponse>> get_domainQueries(@RequestParam String domain_name) {
         return new ResponseEntity<>(uqs.get_domainQueries(domain_name),HttpStatus.OK);
     }
     @PutMapping(ENDPOINT_1) public ResponseEntity<String> update_response(@RequestParam Integer id, @RequestParam String response) {
