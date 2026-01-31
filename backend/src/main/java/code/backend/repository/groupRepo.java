@@ -11,9 +11,9 @@ import java.util.List;
 
 public interface groupRepo extends JpaRepository<group,Integer> {
     @Transactional @Modifying @Query(value = "delete from group_table where id = :id_value",nativeQuery = true)
-    int delete_group(@Param("id_value") Integer id);
-    @Query(value = "select * from group_table where created_by = :createdBy_value",nativeQuery = true)
-    List<group> find_createdBy(@Param("createdBy_value") Integer createdBy);
+    void delete_group(@Param("id_value") Integer id);
+    @Query(value = "select * from group_table where id = :id_value and created_by = :current_user_id_value",nativeQuery = true)
+    group find_createdBy(@Param("id_value") Integer id, @Param("current_user_id_value") Integer current_user_id);
     @Query(value="select * from group_table where domain_name like :domain_name_value",nativeQuery = true)
     List<group> subscriber_group(@Param("domain_name_value") String domain_name);
 }

@@ -1,6 +1,6 @@
 package code.backend.controller;
 
-import code.backend.entity.groupMessage;
+import code.backend.entity.groupMessageResponse;
 import code.backend.service.groupMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -22,7 +22,7 @@ public class groupMessageController {
     @PostMapping public ResponseEntity<Object> send_message(@RequestParam Integer group_id,@RequestParam Integer sender_id,@RequestParam String domain_name, @RequestParam(required = false) String content, @RequestParam(required = false) MultipartFile attachment) throws IOException {
         return new ResponseEntity<>(gms.send_message(group_id, sender_id, domain_name, content, attachment), HttpStatus.CREATED);
     }
-    @GetMapping public ResponseEntity<List<groupMessage>> get_message(@RequestParam Integer group_id,@RequestParam String domain_name) {
+    @GetMapping public ResponseEntity<List<groupMessageResponse>> get_message(@RequestParam Integer group_id, @RequestParam String domain_name) {
         return new ResponseEntity<>(gms.get_message(group_id,domain_name),HttpStatus.OK);
     }
     @GetMapping(ENDPOINT_6) public ResponseEntity<byte[]> download_file(@RequestParam String key) throws IOException {
@@ -35,7 +35,7 @@ public class groupMessageController {
     @DeleteMapping public ResponseEntity<String> delete_message(@RequestParam Integer id) {
         return new ResponseEntity<>(gms.delete_message(id),HttpStatus.OK);
     }
-    @GetMapping(ENDPOINT_10) public ResponseEntity<List<groupMessage>> find_sender(@RequestParam Integer sender_id) {
-        return new ResponseEntity<>(gms.find_sender(sender_id),HttpStatus.OK);
+    @GetMapping(ENDPOINT_10) public ResponseEntity<String> find_sender(@RequestParam Integer id, @RequestParam Integer current_user_id) {
+        return new ResponseEntity<>(gms.find_sender(id,current_user_id),HttpStatus.OK);
     }
 }

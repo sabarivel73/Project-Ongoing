@@ -1,6 +1,5 @@
 package code.backend.controller;
 
-import code.backend.entity.groupMessage;
 import code.backend.entity.message;
 import code.backend.service.messageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,7 @@ public class messageController {
     @DeleteMapping public ResponseEntity<String> delete_message(@RequestParam Integer id) {
         return new ResponseEntity<>(ms.delete_message(id),HttpStatus.OK);
     }
-    @GetMapping(ENDPOINT_10) public ResponseEntity<List<message>> find_sender(@RequestParam Integer sender_id) {
-        return new ResponseEntity<>(ms.find_sender(sender_id),HttpStatus.OK);
+    @GetMapping(ENDPOINT_10) public ResponseEntity<String> find_sender(@RequestParam Integer id, @RequestParam Integer current_user_id) {
+        return new ResponseEntity<>(ms.find_sender(id, current_user_id),HttpStatus.OK);
     }
 }

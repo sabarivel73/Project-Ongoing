@@ -62,7 +62,8 @@ public class messageService {
         mr.delete_message(id);
         return "Message deleted";
     }
-    public List<message> find_sender(Integer sender_id) {
-        return mr.find_sender(sender_id);
+    public String find_sender(Integer id,Integer current_user_id) {
+        if(mr.find_sender(id, current_user_id)!=null) return "Sender";
+        return "Not sender";
     }
 }

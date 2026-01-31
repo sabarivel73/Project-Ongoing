@@ -24,8 +24,8 @@ public class groupController {
     @DeleteMapping public ResponseEntity<String> delete_group(@RequestParam Integer id) {
         return new ResponseEntity<>(gs.delete_group(id),HttpStatus.OK);
     }
-    @GetMapping(ENDPOINT_10) public ResponseEntity<List<group>> find_createdBy(@RequestParam Integer createdBy) {
-        return new ResponseEntity<>(gs.find_createdBy(createdBy),HttpStatus.OK);
+    @GetMapping(ENDPOINT_10) public ResponseEntity<String> find_createdBy(@RequestParam Integer id, @RequestParam Integer current_user_id) {
+        return new ResponseEntity<>(gs.find_createdBy(id,current_user_id),HttpStatus.OK);
     }
     @GetMapping(ENDPOINT_11) public ResponseEntity<List<group>> subscriber_group(@RequestParam Integer subscriber_id,@RequestParam String domain_name) {
         return new ResponseEntity<>(gs.subscriber_group(subscriber_id, domain_name),HttpStatus.OK);

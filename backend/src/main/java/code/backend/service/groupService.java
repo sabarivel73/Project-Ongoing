@@ -37,8 +37,9 @@ public class groupService {
         gr.delete_group(id);
         return "Group deleted";
     }
-    public List<group> find_createdBy(Integer createdBy) {
-        return gr.find_createdBy(createdBy);
+    public String find_createdBy(Integer id,Integer current_user_id) {
+        if(gr.find_createdBy(id, current_user_id)!=null) return "Created by this user";
+        return "Not created by this user";
     }
     public List<group> subscriber_group(Integer subscriber_id,String domain_name) {
         List<group> value = gr.subscriber_group(domain_name);

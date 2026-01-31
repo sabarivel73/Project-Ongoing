@@ -1,6 +1,7 @@
 package code.backend.service;
 
 import code.backend.entity.groupMessage;
+import code.backend.entity.groupMessageResponse;
 import code.backend.repository.groupMessageRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,7 +47,7 @@ public class groupMessageService {
         }
         return gmr.save(value);
     }
-    public List<groupMessage> get_message(Integer group_id, String domain_name) {
+    public List<groupMessageResponse> get_message(Integer group_id, String domain_name) {
         return gmr.get_message(group_id,domain_name);
     }
     public byte[] download_file(String key) throws IOException {
@@ -62,10 +63,11 @@ public class groupMessageService {
         gmr.delete_message(id);
         return "Message deleted";
     }
-    public List<groupMessage> find_sender(Integer sender_id) {
-        return gmr.find_sender(sender_id);
+    public String find_sender(Integer id,Integer current_user_id) {
+        if(gmr.find_sender(id, current_user_id)!=null) return "Sender";
+        return "Not sender";
     }
-    public int delete_allMessage(Integer group_id) {
-        return gmr.delete_allMessage(group_id);
+    public void delete_allMessage(Integer group_id) {
+         gmr.delete_allMessage(group_id);
     }
 }
