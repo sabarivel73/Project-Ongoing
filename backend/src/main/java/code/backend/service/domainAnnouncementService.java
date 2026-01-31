@@ -1,7 +1,7 @@
 package code.backend.service;
 
-import code.backend.entity.message;
-import code.backend.repository.messageRepo;
+import code.backend.entity.domainAnnouncement;
+import code.backend.repository.domainAnnouncementRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,14 +19,14 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class messageService {
+public class domainAnnouncementService {
     @Value("${spring.aws.bucket_name}") private String bucket_name;
-    @Autowired private messageRepo mr;
+    @Autowired private domainAnnouncementRepo dar;
     @Autowired private S3Client s3Client;
-    public Object send_message(Integer sender_id, Integer receiver_id, String content, MultipartFile attachment) throws IOException {
-        message value = new message();
-        value.setSender_id(sender_id);
-        value.setReceiver_id(receiver_id);
+    public String post_announcement(Integer rootUser_id, String domain_name, String content, MultipartFile attachment) throws IOException {
+        domainAnnouncement value = new domainAnnouncement();
+        value.setRootUser_id(rootUser_id);
+        value.setDomain_name(domain_name);
         value.setContent(content);
         value.setTimestamp(LocalDateTime.now());
         if(attachment != null && !attachment.isEmpty()) {
@@ -43,10 +43,11 @@ public class messageService {
             value.setAttachmentUrl(fileUrl);
             value.setAttachmentType(attachment.getContentType());
         }
-        return mr.save(value);
+        dar.save(value);
+        return "Announcement posted successfully";
     }
-    public List<message> get_messages(Integer sender_id,Integer receiver_id) {
-        return mr.get_messages(sender_id,receiver_id);
+    public domainAnnouncement get_announcement(Integer id) {
+        return dar.findById(id).orElse(null);
     }
     public byte[] download_file(String key) throws IOException {
         GetObjectRequest getObjectRequest = GetObjectRequest.builder()
@@ -57,12 +58,11 @@ public class messageService {
             return s3Object.readAllBytes();
         }
     }
-    public String delete_message(Integer id) {
-        mr.delete_message(id);
-        return "Message deleted";
+    public List<domainAnnouncement> get_allAnnouncement(String domain_name) {
+        return dar.get_allAnnouncement(domain_name);
     }
-    public String find_sender(Integer id,Integer current_user_id) {
-        if(mr.find_sender(id, current_user_id)!=null) return "Sender";
-        return "Not sender";
+    public String delete_announcement(Integer id) {
+        dar.deleteById(id);
+        return "Announcement deleted successfully";
     }
 }

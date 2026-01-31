@@ -38,4 +38,7 @@ public class domainController {
     @GetMapping("/{id}") public ResponseEntity<iamUser> getiamUser(@PathVariable Integer id) {
         return new ResponseEntity<>(iamus.find(id),HttpStatus.FOUND);
     }
+    @GetMapping(ENDPOINT_10) public ResponseEntity<String> find_rootUser(@RequestParam String domain_name,@RequestParam Integer current_user_id) {
+        return new ResponseEntity<>(ds.find_rootUser(domain_name, current_user_id),HttpStatus.OK);
+    }
 }

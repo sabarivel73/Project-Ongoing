@@ -14,4 +14,6 @@ public class APIDictionary {
     public static final String ENDPOINT_10 = "/finder";
     public static final String ENDPOINT_11 = "/subscriber_group";
     public static final String ENDPOINT_12 = "/leave_group";
+    public static final String ENDPOINT_13 = "/announcement";
+    public static final String ENDPOINT_14 = "/get_all";
 }

@@ -37,4 +37,8 @@ public class domainService {
     public List<domain> getAllDomain(Integer id) {
         return dr.findAll(id);
     }
+    public String find_rootUser(String domain_name,Integer current_user_id) {
+        if(dr.find_rootUser(domain_name, current_user_id)!=null) return "Root user";
+        return "Not a root user";
+    }
 }
