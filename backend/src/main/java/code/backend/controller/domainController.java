@@ -32,8 +32,8 @@ public class domainController {
     @DeleteMapping(ENDPOINT_3) public ResponseEntity<String> deleteiamUser(@RequestParam Integer id) {
         return new ResponseEntity<>(iamus.deleteiamUser(id),HttpStatus.OK);
     }
-    @GetMapping public ResponseEntity<List<iamUser>> getAlliamUser(@RequestParam String domain_name) {
-        return new ResponseEntity<>(iamus.getAlliamUser(domain_name),HttpStatus.FOUND);
+    @GetMapping public ResponseEntity<List<iamUser>> getAlliamUser(@RequestParam String domain_name,@RequestParam(required = false) String search) {
+        return new ResponseEntity<>(iamus.getAlliamUser(domain_name,search),HttpStatus.FOUND);
     }
     @GetMapping("/{id}") public ResponseEntity<iamUser> getiamUser(@PathVariable Integer id) {
         return new ResponseEntity<>(iamus.find(id),HttpStatus.FOUND);

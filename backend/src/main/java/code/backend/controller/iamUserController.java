@@ -15,8 +15,8 @@ import static code.backend.constants.APIDictionary.*;
 @RequestMapping(API+ENDPOINT_3)
 public class iamUserController {
     @Autowired private iamUserService iamus;
-    @GetMapping public ResponseEntity<List<iamUser>> getAlliamUser(@RequestParam String domain_name) {
-        return new ResponseEntity<>(iamus.getAlliamUser(domain_name), HttpStatus.FOUND);
+    @GetMapping public ResponseEntity<List<iamUser>> getAlliamUser(@RequestParam String domain_name,@RequestParam(required = false) String search) {
+        return new ResponseEntity<>(iamus.getAlliamUser(domain_name,search), HttpStatus.FOUND);
     }
     @GetMapping("/{id}") public ResponseEntity<iamUser> getiamUser(@PathVariable Integer id) {
         return new ResponseEntity<>(iamus.find(id),HttpStatus.FOUND);

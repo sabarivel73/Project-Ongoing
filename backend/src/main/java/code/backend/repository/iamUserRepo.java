@@ -12,8 +12,8 @@ import java.util.List;
 public interface iamUserRepo extends JpaRepository<iamUser,Integer> {
     @Query(value = "select id from iam_user where name like :name_value and domain_name like :domain_name_value",nativeQuery = true)
     Integer iamUserID(@Param("name_value") String name,@Param("domain_name_value") String domain_name);
-    @Query(value = "select * from iam_user where domain_name like :domain_name_value",nativeQuery = true)
-    List<iamUser> findAll(@Param("domain_name_value") String domain_name);
+    @Query(value = "select * from iam_user where domain_name like :domain_name_value and (:search_value is null or (name like :search_1_value or name like :search_2_value))",nativeQuery = true)
+    List<iamUser> findAll(@Param("domain_name_value") String domain_name,@Param("search_value") String search,@Param("search_1_value") String search_1,@Param("search_2_value") String search_2);
     @Transactional @Modifying @Query(value = "Delete from iam_user where domain_name like :domain_name_value",nativeQuery = true)
     Integer deleteiamUserDomain(@Param("domain_name_value") String domain_name);
     @Query(value = "select * from iam_user where domain_name like :domain_name_value and name like :name_value",nativeQuery = true)
