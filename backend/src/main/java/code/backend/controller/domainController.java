@@ -20,7 +20,7 @@ public class domainController {
     @PutMapping public ResponseEntity<String> editDomain(@RequestParam Integer id, @RequestParam String name) {
         return new ResponseEntity<>(ds.editDomain(id, name),HttpStatus.ACCEPTED);
     }
-    @DeleteMapping public ResponseEntity<String> deleDomain(@RequestParam Integer id) {
+    @DeleteMapping public ResponseEntity<String> deleteDomain(@RequestParam Integer id) {
         return new ResponseEntity<>(ds.deleteDomain(id),HttpStatus.OK);
     }
     @PostMapping(ENDPOINT_3) public ResponseEntity<String> saveiamUser(@RequestBody iamUser value, @RequestParam Integer id,@RequestParam String domain_name) {

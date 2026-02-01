@@ -1,6 +1,7 @@
 package code.backend.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.Data;
 
 @Entity
@@ -16,5 +17,6 @@ public class rootUser {
     @Column(name = "password")
     private String password;
     @Column(name = "email")
+    @Email
     private String email;
 }

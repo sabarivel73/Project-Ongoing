@@ -13,6 +13,12 @@ public class domainService {
     @Autowired private domainRepo dr;
     @Autowired private iamUserRepo iamur;
     public String saveDomain(String name,Integer id) {
+        String nameValue = name.toLowerCase();
+        int count = 0;
+        for(int i=0;i<nameValue.length();i++) {
+            if(nameValue.charAt(i)>='a' && nameValue.charAt(i)<='z') count++;
+        }
+        if(count!=nameValue.length()) return "Name field only accepts letters only not even a space";
         if(dr.domain_id(name.toLowerCase(),id)!=null) return "Domain name already exist";
         domain value = new domain();
         value.setDomain_name(name.toLowerCase());
@@ -23,6 +29,12 @@ public class domainService {
     public domain find(Integer value) { return dr.findById(value).orElse(null); }
     public String editDomain(Integer id,String name) {
         domain data = find(id);
+        String nameValue = name.toLowerCase();
+        int count = 0;
+        for(int i=0;i<nameValue.length();i++) {
+            if(nameValue.charAt(i)>='a' && nameValue.charAt(i)<='z') count++;
+        }
+        if(count!=nameValue.length()) return "Name field only accepts letters only not even a space";
         if(dr.domain_id(name.toLowerCase(),data.getRootUser_id())!=null) return "Domain name already exist";
         data.setDomain_name(name.toLowerCase());
         dr.save(data);

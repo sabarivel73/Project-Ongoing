@@ -4,6 +4,7 @@ import code.backend.entity.rootUser;
 import code.backend.repository.domainRepo;
 import code.backend.repository.rootUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,19 +14,37 @@ public class rootUserService {
     @Autowired private rootUserRepo rur;
     @Autowired private domainRepo dr;
     @Autowired private domainService ds;
+    @Autowired private PasswordEncoder passwordEncoder;
     public String saveUser(rootUser value) {
+        String name = value.getName().toLowerCase();
+        int count = 0;
+        for(int i=0;i<name.length();i++) {
+            if(name.charAt(i)>='a' && name.charAt(i)<='z') count++;
+        }
+        if(count!=name.length()) return "Name field only accepts letters only not even a space";
         if(rur.rootUserID(value.getName().toLowerCase())!=null) return "User name already exist";
+        if(value.getPassword().length()>16 || value.getPassword().length()<8) return "Password size min = 8 and max = 16";
+        String password = passwordEncoder.encode(value.getPassword());
         value.setName(value.getName().toLowerCase());
         value.setEmail(value.getEmail().toLowerCase());
+        value.setPassword(password);
         rur.save(value);
         return "User saved";
     }
     public rootUser find(Integer value) { return rur.findById(value).orElse(null); }
     public Object editUser(Integer id,rootUser value) {
         rootUser data = find(id);
+        String name = value.getName().toLowerCase();
+        int count = 0;
+        for(int i=0;i<name.length();i++) {
+            if(name.charAt(i)>='a' && name.charAt(i)<='z') count++;
+        }
+        if(count!=name.length()) return "Name field only accepts letters only not even a space";
         if(rur.rootUserID(value.getName().toLowerCase())!=null) return "User name already exist";
+        if(value.getPassword().length()>16 || value.getPassword().length()<8) return "Password size min = 8 and max = 16";
+        String password = passwordEncoder.encode(value.getPassword());
         data.setName(value.getName().toLowerCase());
-        data.setPassword(value.getPassword());
+        data.setPassword(password);
         data.setEmail(value.getEmail().toLowerCase());
         rur.save(data);
         return data;
@@ -41,7 +60,7 @@ public class rootUserService {
     public String loginrootUser(String user_name,String password) {
         String value = rur.login(user_name.toLowerCase());
         if(value==null) return "No User name found";
-        if(!value.equals(password)) return "Password was wrong";
+        if(!passwordEncoder.matches(password,value)) return "Password was wrong";
         return "User logged in successfully";
     }
 }

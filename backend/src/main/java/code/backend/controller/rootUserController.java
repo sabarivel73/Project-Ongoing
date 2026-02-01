@@ -2,6 +2,7 @@ package code.backend.controller;
 
 import code.backend.entity.*;
 import code.backend.service.*;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,10 @@ import static code.backend.constants.APIDictionary.*;
 public class rootUserController {
     @Autowired private rootUserService rus;
     @Autowired private domainService ds;
-    @PostMapping public ResponseEntity<String> saveUser(@RequestBody rootUser value) {
+    @PostMapping public ResponseEntity<String> saveUser(@RequestBody @Valid rootUser value) {
         return new ResponseEntity<>(rus.saveUser(value), HttpStatus.CREATED);
     }
-    @PutMapping public ResponseEntity<Object> editUser(@RequestParam Integer id,@RequestBody rootUser value) {
+    @PutMapping public ResponseEntity<Object> editUser(@RequestParam Integer id,@RequestBody @Valid rootUser value) {
         return new ResponseEntity<>(rus.editUser(id,value),HttpStatus.ACCEPTED);
     }
     @DeleteMapping public ResponseEntity<String> deleteUser(@RequestParam Integer id) {
