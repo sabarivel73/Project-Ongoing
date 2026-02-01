@@ -10,4 +10,6 @@ public interface rootUserRepo extends JpaRepository<rootUser,Integer> {
     Integer rootUserID(@Param("name_value") String name);
     @Query(value = "select password from root_user where name like :name_value",nativeQuery = true)
     String login(@Param("name_value") String name);
+    @Query(value = "select email from root_user where email like :email_value",nativeQuery = true)
+    String email(@Param("email_value") String email);
 }

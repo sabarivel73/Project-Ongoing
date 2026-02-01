@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 import static code.backend.constants.APIDictionary.*;
@@ -34,5 +35,11 @@ public class rootUserController {
     }
     @GetMapping("/{id}") public ResponseEntity<domain> getDomain(@PathVariable Integer id) {
         return new ResponseEntity<>(ds.find(id), HttpStatus.FOUND);
+    }
+    @GetMapping(ENDPOINT_17) public ResponseEntity<Object> sendMail(@RequestParam String mail) throws IOException {
+        return new ResponseEntity<>(rus.sendMail(mail),HttpStatus.OK);
+    }
+    @GetMapping(ENDPOINT_18) public ResponseEntity<String> validation(@RequestParam Integer id,@RequestParam Integer value) {
+        return new ResponseEntity<>(rus.validation(id, value),HttpStatus.OK);
     }
 }

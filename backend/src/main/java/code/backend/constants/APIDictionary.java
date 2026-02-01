@@ -18,4 +18,6 @@ public class APIDictionary {
     public static final String ENDPOINT_14 = "/get_all";
     public static final String ENDPOINT_15 = "/notes";
     public static final String ENDPOINT_16 = "/queries";
+    public static final String ENDPOINT_17 = "/mail";
+    public static final String ENDPOINT_18 = "/validation";
 }
