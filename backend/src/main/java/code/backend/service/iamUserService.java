@@ -62,7 +62,7 @@ public class iamUserService {
     }
     public List<iamUser> getAlliamUser(String domain_name,String search) {
         if(search==null) return iamur.findAll(domain_name.toLowerCase(),null,null,null);
-        return iamur.findAll(domain_name.toLowerCase(),search.toLowerCase(),"%"+search.toLowerCase(),"%"+search.toLowerCase()+"%");
+        return iamur.findAll(domain_name.toLowerCase(),search,"%"+search.toLowerCase(),"%"+search.toLowerCase()+"%");
     }
     public String loginiamUser(String domain_name,String user_name,String password) {
         iamUser value = iamur.login(domain_name.toLowerCase(),user_name.toLowerCase());

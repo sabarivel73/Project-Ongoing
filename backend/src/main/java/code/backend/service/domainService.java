@@ -50,7 +50,7 @@ public class domainService {
     public List<Object> getAllDomain(Integer id, String search) {
         List<domain> value;
         if(search==null) value = dr.findAll(id,null,null,null);
-        else value = dr.findAll(id,search,search+"%","%"+search+"%");
+        else value = dr.findAll(id,search,search.toLowerCase()+"%","%"+search.toLowerCase()+"%");
         List<Object> result = new ArrayList<>();
         for(int i=0;i<value.size();i++) {
             Object value_1;
