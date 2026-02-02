@@ -61,7 +61,7 @@ public class iamUserService {
         return result;
     }
     public List<iamUser> getAlliamUser(String domain_name,String search) {
-        if(search==null) return iamur.findAll(domain_name.toLowerCase(),search,search,search);
+        if(search==null) return iamur.findAll(domain_name.toLowerCase(),null,null,null);
         return iamur.findAll(domain_name.toLowerCase(),search.toLowerCase(),"%"+search.toLowerCase(),"%"+search.toLowerCase()+"%");
     }
     public String loginiamUser(String domain_name,String user_name,String password) {
@@ -70,7 +70,7 @@ public class iamUserService {
         if(!passwordEncoder.matches(password, value.getPassword())) return "Password was wrong";
         return "IAM User logged in successfully";
     }
-    public Integer iamUserCount(Integer rootUser_id) {
-        return iamur.iamUserCount(rootUser_id);
+    public Integer iamUserCount(Integer rootUser_id,String domain_name) {
+        return iamur.iamUserCount(rootUser_id,domain_name);
     }
 }

@@ -31,8 +31,8 @@ public class rootUserController {
     @PostMapping(ENDPOINT_2) public ResponseEntity<String> saveDomain(@RequestParam String name, @RequestParam Integer id) {
         return new ResponseEntity<>(ds.saveDomain(name,id), HttpStatus.CREATED);
     }
-    @GetMapping public ResponseEntity<List<domain>> getAllDomains(@RequestParam Integer id) {
-        return new ResponseEntity<>(ds.getAllDomain(id),HttpStatus.FOUND);
+    @GetMapping public ResponseEntity<List<Object>> getAllDomains(@RequestParam Integer id,@RequestParam(required = false) String search) {
+        return new ResponseEntity<>(ds.getAllDomain(id,search),HttpStatus.FOUND);
     }
     @GetMapping("/{id}") public ResponseEntity<domain> getDomain(@PathVariable Integer id) {
         return new ResponseEntity<>(ds.find(id), HttpStatus.FOUND);
@@ -44,7 +44,7 @@ public class rootUserController {
         return new ResponseEntity<>(rus.validation(id, value),HttpStatus.OK);
     }
     @GetMapping(ENDPOINT_19) public ResponseEntity<Object> dashboard(@RequestParam Integer rootUser_id) {
-        Integer value_1 = ds.domainCount(rootUser_id); Integer value_2 = iamus.iamUserCount(rootUser_id);
+        Integer value_1 = ds.domainCount(rootUser_id); Integer value_2 = iamus.iamUserCount(rootUser_id,null);
         return new ResponseEntity<>("Number of domains : "+value_1+" and number of IAM users all domain : "+value_2,HttpStatus.OK);
     }
 }

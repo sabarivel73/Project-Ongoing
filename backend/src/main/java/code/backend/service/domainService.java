@@ -6,6 +6,7 @@ import code.backend.repository.iamUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -46,8 +47,19 @@ public class domainService {
         dr.deleteById(id);
         return result;
     }
-    public List<domain> getAllDomain(Integer id) {
-        return dr.findAll(id);
+    public List<Object> getAllDomain(Integer id, String search) {
+        List<domain> value;
+        if(search==null) value = dr.findAll(id,null,null,null);
+        else value = dr.findAll(id,search,search+"%","%"+search+"%");
+        List<Object> result = new ArrayList<>();
+        for(int i=0;i<value.size();i++) {
+            Object value_1;
+            Integer count = iamur.iamUserCount(id,value.get(i).getDomain_name());
+            value_1 = value.get(i);
+            value_1 += " and IAM User Count : "+count;
+            result.add(value_1);
+        }
+        return result;
     }
     public String find_rootUser(String domain_name,Integer current_user_id) {
         if(dr.find_rootUser(domain_name, current_user_id)!=null) return "Root user";
