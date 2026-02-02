@@ -17,6 +17,8 @@ public class iamUser {
     private String password;
     @Column(name = "domain_name")
     private String domain_name;
+    @Column(name = "role")
+    private String role;
     @Column(name = "rootUser_id")
     private Integer rootUser_id;
 }

@@ -8,8 +8,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface domainRepo extends JpaRepository<domain,Integer> {
-    @Query(value = "select id from domain where domain_name like :name_value and root_user_id = :id_value",nativeQuery = true)
-    Integer domain_id(@Param("name_value") String name,@Param("id_value") Integer id);
+    @Query(value = "select id from domain where domain_name like :name_value",nativeQuery = true)
+    Integer domain_id(@Param("name_value") String name);
     @Query(value = "select * from domain where root_user_id = :id_value and (:search_value is null or (domain_name like :search_1_value or domain_name like :search_2_value))",nativeQuery = true)
     List<domain> findAll(@Param("id_value") Integer id,@Param("search_value") String search,@Param("search_1_value") String search_1,@Param("search_2_value") String search_2);
     @Query(value = "select id from domain where root_user_id = :id_value",nativeQuery = true)

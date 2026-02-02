@@ -25,6 +25,12 @@ public class userQueriesService {
     public List<userQueries> get_queries(Integer iamUser_id) {
         return uqr.get_queries(iamUser_id);
     }
+    public List<userQueries> yetToResponse(Integer iamUser_id) {
+        return uqr.yetToResponse(iamUser_id);
+    }
+    public List<userQueries> respondedQueries(Integer iamUser_id) {
+        return uqr.respondedQueries(iamUser_id);
+    }
     public String delete_query(Integer id) {
         uqr.deleteById(id);
         return "Query deleted successfully";
@@ -38,5 +44,8 @@ public class userQueriesService {
         value.setResponse(response);
         uqr.save(value);
         return "Response updated";
+    }
+    public Integer queriesCount(String domain_name) {
+        return uqr.queriesCount(domain_name);
     }
 }

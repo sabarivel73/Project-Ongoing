@@ -20,7 +20,7 @@ public class domainService {
             if(nameValue.charAt(i)>='a' && nameValue.charAt(i)<='z') count++;
         }
         if(count!=nameValue.length()) return "Name field only accepts letters only not even a space";
-        if(dr.domain_id(name.toLowerCase(),id)!=null) return "Domain name already exist";
+        if(dr.domain_id(name.toLowerCase())!=null) return "Domain name already exist";
         domain value = new domain();
         value.setDomain_name(name.toLowerCase());
         value.setRootUser_id(id);
@@ -36,7 +36,7 @@ public class domainService {
             if(nameValue.charAt(i)>='a' && nameValue.charAt(i)<='z') count++;
         }
         if(count!=nameValue.length()) return "Name field only accepts letters only not even a space";
-        if(dr.domain_id(name.toLowerCase(),data.getRootUser_id())!=null) return "Domain name already exist";
+        if(dr.domain_id(name.toLowerCase())!=null) return "Domain name already exist";
         data.setDomain_name(name.toLowerCase());
         dr.save(data);
         return "Domain edited"+" : "+name.toLowerCase();

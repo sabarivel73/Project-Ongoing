@@ -31,4 +31,10 @@ public class userQueriesController {
     @PutMapping(ENDPOINT_1) public ResponseEntity<String> update_response(@RequestParam Integer id, @RequestParam String response) {
         return new ResponseEntity<>(uqs.update_response(id,response),HttpStatus.OK);
     }
+    @GetMapping(ENDPOINT_20) public ResponseEntity<List<userQueries>> yetToResponse(@RequestParam Integer iamUser_id) {
+        return new ResponseEntity<>(uqs.yetToResponse(iamUser_id),HttpStatus.OK);
+    }
+    @GetMapping(ENDPOINT_21) public ResponseEntity<List<userQueries>> respondedQueries(@RequestParam Integer iamUser_id) {
+        return new ResponseEntity<>(uqs.respondedQueries(iamUser_id),HttpStatus.OK);
+    }
 }

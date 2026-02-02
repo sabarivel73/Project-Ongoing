@@ -65,4 +65,7 @@ public class domainAnnouncementService {
         dar.deleteById(id);
         return "Announcement deleted successfully";
     }
+    public Integer announcementCount(String domain_name) {
+        return dar.announcementCount(domain_name);
+    }
 }
