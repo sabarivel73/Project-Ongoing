@@ -18,6 +18,7 @@ import static code.backend.constants.APIDictionary.*;
 public class rootUserController {
     @Autowired private rootUserService rus;
     @Autowired private domainService ds;
+    @Autowired private iamUserService iamus;
     @PostMapping public ResponseEntity<String> saveUser(@RequestBody @Valid rootUser value) {
         return new ResponseEntity<>(rus.saveUser(value), HttpStatus.CREATED);
     }
@@ -41,5 +42,9 @@ public class rootUserController {
     }
     @GetMapping(ENDPOINT_18) public ResponseEntity<String> validation(@RequestParam Integer id,@RequestParam Integer value) {
         return new ResponseEntity<>(rus.validation(id, value),HttpStatus.OK);
+    }
+    @GetMapping(ENDPOINT_19) public ResponseEntity<Object> dashboard(@RequestParam Integer rootUser_id) {
+        Integer value_1 = ds.domainCount(rootUser_id); Integer value_2 = iamus.iamUserCount(rootUser_id);
+        return new ResponseEntity<>("Number of domains : "+value_1+" and number of IAM users all domain : "+value_2,HttpStatus.OK);
     }
 }

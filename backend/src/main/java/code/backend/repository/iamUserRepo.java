@@ -18,4 +18,6 @@ public interface iamUserRepo extends JpaRepository<iamUser,Integer> {
     Integer deleteiamUserDomain(@Param("domain_name_value") String domain_name);
     @Query(value = "select * from iam_user where domain_name like :domain_name_value and name like :name_value",nativeQuery = true)
     iamUser login(@Param("domain_name_value") String domain_name,@Param("name_value") String name);
+    @Query(value = "select count(*) from iam_user where root_user_id = :rootUser_id_value",nativeQuery = true)
+    Integer iamUserCount(@Param("rootUser_id_value") Integer rootUser_id);
 }

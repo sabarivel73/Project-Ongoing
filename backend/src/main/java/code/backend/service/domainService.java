@@ -53,4 +53,7 @@ public class domainService {
         if(dr.find_rootUser(domain_name, current_user_id)!=null) return "Root user";
         return "Not a root user";
     }
+    public Integer domainCount(Integer rootUser_id) {
+        return dr.domainCount(rootUser_id);
+    }
 }

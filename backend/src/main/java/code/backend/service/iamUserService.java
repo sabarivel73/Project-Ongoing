@@ -70,4 +70,7 @@ public class iamUserService {
         if(!passwordEncoder.matches(password, value.getPassword())) return "Password was wrong";
         return "IAM User logged in successfully";
     }
+    public Integer iamUserCount(Integer rootUser_id) {
+        return iamur.iamUserCount(rootUser_id);
+    }
 }

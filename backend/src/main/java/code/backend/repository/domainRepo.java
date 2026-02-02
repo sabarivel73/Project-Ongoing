@@ -16,4 +16,6 @@ public interface domainRepo extends JpaRepository<domain,Integer> {
     List<Integer> idsrootUserDomain(@Param("id_value") Integer id);
     @Query(value = "select * from domain where domain_name like :domain_name_value and root_user_id = :current_user_id_value",nativeQuery = true)
     domain find_rootUser(@Param("domain_name_value") String domain_name,@Param("current_user_id_value") Integer current_user_id);
+    @Query(value = "select count(*) as v from domain where root_user_id = :rootUser_id_value",nativeQuery = true)
+    Integer domainCount(@Param("rootUser_id_value") Integer rootUser_id);
 }
