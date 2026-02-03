@@ -107,7 +107,7 @@ public class rootUserService {
         message.setFrom(sender);
         message.setTo(mail);
         message.setSubject("OTP Mail from OfficeWing");
-        message.setText("Vanakam \n\n Your OTP is "+value+"\n\n Thanks for choosing OfficeWing, have a great day");
+        message.setText("Vanakam\n\n Your OTP is "+value+"\n\n Thanks for choosing OfficeWing, have a great day");
         javaMailSender.send(message);
         return "Mail sent successfully and " + "Id : "+id;
     }

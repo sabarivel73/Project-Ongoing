@@ -32,7 +32,10 @@ public class groupMessageController {
         httpHeaders.setContentDispositionFormData("file",key);
         return new ResponseEntity<>(value,httpHeaders,HttpStatus.OK);
     }
-    @DeleteMapping public ResponseEntity<String> delete_message(@RequestParam Integer id) {
+    @PutMapping public ResponseEntity<String> edit_message(@RequestParam Integer id,@RequestParam(required = false) String content) {
+        return new ResponseEntity<>(gms.edit_message(id,content),HttpStatus.OK);
+    }
+    @DeleteMapping public ResponseEntity<String> delete_message(@RequestParam Integer id) throws IOException {
         return new ResponseEntity<>(gms.delete_message(id),HttpStatus.OK);
     }
     @GetMapping(ENDPOINT_10) public ResponseEntity<String> find_sender(@RequestParam Integer id, @RequestParam Integer current_user_id) {

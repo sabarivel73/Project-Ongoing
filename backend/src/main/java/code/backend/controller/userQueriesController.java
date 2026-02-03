@@ -22,6 +22,9 @@ public class userQueriesController {
     @GetMapping public ResponseEntity<List<userQueries>> get_queries(@RequestParam Integer iamUser_id) {
         return new ResponseEntity<>(uqs.get_queries(iamUser_id),HttpStatus.OK);
     }
+    @PutMapping public ResponseEntity<String> edit_queries(@RequestParam Integer id,@RequestParam(required = false) String query) {
+        return new ResponseEntity<>(uqs.edit_query(id, query),HttpStatus.OK);
+    }
     @DeleteMapping public ResponseEntity<String> delete_query(@RequestParam Integer id) {
         return new ResponseEntity<>(uqs.delete_query(id),HttpStatus.OK);
     }

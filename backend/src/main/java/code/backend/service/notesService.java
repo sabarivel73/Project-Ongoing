@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
@@ -57,7 +58,26 @@ public class notesService {
             return s3Object.readAllBytes();
         }
     }
-    public String delete_note(Integer id) {
+    public String edit_note(Integer id, String content) {
+        notes value = nr.findById(id).orElse(null);
+        if(value==null) return "Note not found";
+        if(content!=null && !value.getContent().equals(content)) {
+            value.setContent(content);
+            nr.save(value);
+            return "Note edited successfully";
+        }
+        return "No changes found";
+    }
+    public String delete_note(Integer id) throws IOException {
+        notes value = nr.findById(id).orElse(null);
+        if(value==null) return "Note not found";
+        if(value.getAttachmentKey()!=null) {
+            DeleteObjectRequest file = DeleteObjectRequest.builder()
+                    .bucket(bucket_name)
+                    .key(value.getAttachmentKey())
+                    .build();
+            s3Client.deleteObject(file);
+        }
         nr.deleteById(id);
         return "Note deleted successfully";
     }

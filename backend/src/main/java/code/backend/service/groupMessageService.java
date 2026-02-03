@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
@@ -59,7 +60,26 @@ public class groupMessageService {
             return s3Object.readAllBytes();
         }
     }
-    public String delete_message(Integer id) {
+    public String edit_message(Integer id, String content) {
+        groupMessage value = gmr.findById(id).orElse(null);
+        if(value==null) return "Message not found";
+        if(content!=null && !value.getContent().equals(content)) {
+            value.setContent(content);
+            gmr.save(value);
+            return "Message edited successfully";
+        }
+        return "No changes found";
+    }
+    public String delete_message(Integer id) throws IOException {
+        groupMessage value = gmr.findById(id).orElse(null);
+        if(value==null) return "Message not found";
+        if(value.getAttachmentKey()!=null) {
+            DeleteObjectRequest file = DeleteObjectRequest.builder()
+                    .bucket(bucket_name)
+                    .key(value.getAttachmentKey())
+                    .build();
+            s3Client.deleteObject(file);
+        }
         gmr.delete_message(id);
         return "Message deleted";
     }

@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
@@ -61,7 +62,50 @@ public class domainAnnouncementService {
     public List<domainAnnouncement> get_allAnnouncement(String domain_name) {
         return dar.get_allAnnouncement(domain_name);
     }
-    public String delete_announcement(Integer id) {
+    public String edit_announcement(Integer id, String content, MultipartFile attachment) throws IOException {
+        domainAnnouncement value = dar.findById(id).orElse(null);
+        String result = "";
+        if(value==null) return "No announcement found";
+        if(content!=null && (value.getContent()==null || !value.getContent().equals(content))) {
+            value.setContent(content);
+            result += "Content successfully edited";
+        }
+        if(attachment!=null && !attachment.isEmpty()) {
+            if(value.getAttachmentKey()!=null) {
+                DeleteObjectRequest file = DeleteObjectRequest.builder()
+                        .bucket(bucket_name)
+                        .key(value.getAttachmentKey())
+                        .build();
+                s3Client.deleteObject(file);
+            }
+            if(attachment.getSize()>50*1024*1024) return "File size limit exceeded";
+            String key = UUID.randomUUID() + "_" + attachment.getOriginalFilename();
+            PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                    .bucket(bucket_name)
+                    .key(key)
+                    .contentType(attachment.getContentType())
+                    .build();
+            s3Client.putObject(putObjectRequest, RequestBody.fromInputStream(attachment.getInputStream(),attachment.getSize()));
+            String fileUrl = "https://" + bucket_name + ".s3." + s3Client.serviceClientConfiguration().region().id() + ".amazonaws.com/" + key;
+            value.setAttachmentKey(key);
+            value.setAttachmentUrl(fileUrl);
+            value.setAttachmentType(attachment.getContentType());
+            if(!result.isEmpty()) result += " and ";
+            result += "attachment updated successfully";
+        }
+        dar.save(value);
+        return result.isEmpty()?"No changes found":result;
+    }
+    public String delete_announcement(Integer id) throws IOException {
+        domainAnnouncement value = dar.findById(id).orElse(null);
+        if(value==null) return "No announcement found";
+        if(value.getAttachmentKey()!=null) {
+            DeleteObjectRequest file = DeleteObjectRequest.builder()
+                    .bucket(bucket_name)
+                    .key(value.getAttachmentKey())
+                    .build();
+            s3Client.deleteObject(file);
+        }
         dar.deleteById(id);
         return "Announcement deleted successfully";
     }

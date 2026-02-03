@@ -31,6 +31,16 @@ public class userQueriesService {
     public List<userQueries> respondedQueries(Integer iamUser_id) {
         return uqr.respondedQueries(iamUser_id);
     }
+    public String edit_query(Integer id, String query) {
+        userQueries value = uqr.findById(id).orElse(null);
+        if(value==null) return "Query not found";
+        if(query!=null && !value.getQuery().equals(query)) {
+            value.setQuery(query);
+            uqr.save(value);
+            return "Query edited successfully";
+        }
+        return "No changes found";
+    }
     public String delete_query(Integer id) {
         uqr.deleteById(id);
         return "Query deleted successfully";

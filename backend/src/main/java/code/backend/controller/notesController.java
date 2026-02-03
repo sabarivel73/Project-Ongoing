@@ -32,7 +32,10 @@ public class notesController {
         httpHeaders.setContentDispositionFormData("file",key);
         return new ResponseEntity<>(value,httpHeaders,HttpStatus.OK);
     }
-    @DeleteMapping public ResponseEntity<String> delete_note(@RequestParam Integer id) {
+    @PutMapping public ResponseEntity<String> edit_note(@RequestParam Integer id,@RequestParam(required = false) String content) {
+        return new ResponseEntity<>(ns.edit_note(id, content),HttpStatus.OK);
+    }
+    @DeleteMapping public ResponseEntity<String> delete_note(@RequestParam Integer id) throws IOException {
         return new ResponseEntity<>(ns.delete_note(id),HttpStatus.OK);
     }
 }

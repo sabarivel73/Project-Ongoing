@@ -35,7 +35,10 @@ public class domainAnnouncementController {
     @GetMapping(ENDPOINT_14) public ResponseEntity<List<domainAnnouncement>> get_allAnnouncement(@RequestParam String domain_name) {
         return new ResponseEntity<>(das.get_allAnnouncement(domain_name),HttpStatus.OK);
     }
-    @DeleteMapping public ResponseEntity<String> delete_announcement(@RequestParam Integer id) {
+    @PutMapping public ResponseEntity<String> edit_announcement(@RequestParam Integer id,@RequestParam(required = false) String content,@RequestParam(required = false) MultipartFile attachment) throws IOException {
+        return new ResponseEntity<>(das.edit_announcement(id, content, attachment),HttpStatus.OK);
+    }
+    @DeleteMapping public ResponseEntity<String> delete_announcement(@RequestParam Integer id) throws IOException {
         return new ResponseEntity<>(das.delete_announcement(id),HttpStatus.OK);
     }
 }
