@@ -1,7 +1,6 @@
 package code.backend.controller;
 
 import code.backend.entity.iamUser;
-import code.backend.entity.userQueries;
 import code.backend.service.domainAnnouncementService;
 import code.backend.service.domainService;
 import code.backend.service.iamUserService;
