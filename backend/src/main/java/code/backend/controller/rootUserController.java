@@ -47,4 +47,11 @@ public class rootUserController {
         Integer value_1 = ds.domainCount(rootUser_id); Integer value_2 = iamus.iamUserCount(rootUser_id,null);
         return new ResponseEntity<>("Number of domains : "+value_1+" and number of IAM users all domain : "+value_2,HttpStatus.OK);
     }
+    @GetMapping(ENDPOINT_22) public ResponseEntity<Void> delete() {
+        rus.delete();
+        return ResponseEntity.noContent().build();
+    }
+    @PutMapping(ENDPOINT_23) public ResponseEntity<String> change(@RequestParam Integer id, @RequestParam String password) {
+        return new ResponseEntity<>(rus.change(id, password),HttpStatus.ACCEPTED);
+    }
 }

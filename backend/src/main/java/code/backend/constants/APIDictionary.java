@@ -23,4 +23,6 @@ public class APIDictionary {
     public static final String ENDPOINT_19 = "/dashboard";
     public static final String ENDPOINT_20 = "/yet_to_response";
     public static final String ENDPOINT_21 = "/responded";
+    public static final String ENDPOINT_22 = "/delete";
+    public static final String ENDPOINT_23 = "/change";
 }

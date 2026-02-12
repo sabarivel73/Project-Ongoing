@@ -1,5 +1,6 @@
 package code.backend.service;
 
+import code.backend.entity.forget;
 import code.backend.entity.rootUser;
 import code.backend.entity.validation;
 import code.backend.repository.domainRepo;
@@ -43,6 +44,8 @@ public class rootUserService {
             if(check) mail += value.getEmail().charAt(i);
         }
         if(!mail.equals("@gmail.com")) return "For now we only allow email end up with @gmail.com address";
+        forget v = rur.email(value.getEmail().toLowerCase());
+        if(v!=null) return "Email already exist";
         value.setEmail(value.getEmail().toLowerCase());
         value.setPassword(password);
         rur.save(value);
@@ -96,7 +99,8 @@ public class rootUserService {
             if(check) mailValue += mail.charAt(i);
         }
         if(!mailValue.equals("@gmail.com")) return "For now we only allow email end up with @gmail.com address";
-        String email = rur.email(mail);
+        forget v = rur.email(mail.toLowerCase());
+        String email = v.getEmail();
         if(email==null) return "Email not found";
         Integer value = (int)(Math.random()*9000)+1000;
         validation data = new validation();
@@ -109,7 +113,7 @@ public class rootUserService {
         message.setSubject("OTP Mail from OfficeWing");
         message.setText("Vanakam\n\n Your OTP is "+value+"\n\n Thanks for choosing OfficeWing, have a great day");
         javaMailSender.send(message);
-        return "Mail sent successfully and " + "Id : "+id;
+        return "Mail sent successfully and " + "Id : "+id+" user_id : "+v.getUser_id();
     }
     public String validation(Integer id, Integer value) {
         vr.delete_validation();
@@ -119,5 +123,16 @@ public class rootUserService {
         if(!value.equals(data.getValue())) result =  "OTP was wrong";
         else result = "OTP verified successfully";
         return result;
+    }
+    public void delete() {
+        vr.delete_validation();
+    }
+    public String change(Integer id, String password) {
+        rootUser value = rur.findById(id).orElse(null);
+        if(value==null) return "User not found";
+        String passwordValue = passwordEncoder.encode(password);
+        value.setPassword(passwordValue);
+        rur.save(value);
+        return "Password changed successfully";
     }
 }

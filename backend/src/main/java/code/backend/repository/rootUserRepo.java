@@ -1,5 +1,6 @@
 package code.backend.repository;
 
+import code.backend.entity.forget;
 import code.backend.entity.rootUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,6 +11,6 @@ public interface rootUserRepo extends JpaRepository<rootUser,Integer> {
     Integer rootUserID(@Param("name_value") String name);
     @Query(value = "select password from root_user where name like :name_value",nativeQuery = true)
     String login(@Param("name_value") String name);
-    @Query(value = "select email from root_user where email like :email_value",nativeQuery = true)
-    String email(@Param("email_value") String email);
+    @Query(value = "select id,email from root_user where email like :email_value",nativeQuery = true)
+    forget email(@Param("email_value") String email);
 }
