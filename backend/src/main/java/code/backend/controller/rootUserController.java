@@ -22,8 +22,8 @@ public class rootUserController {
     @PostMapping public ResponseEntity<String> saveUser(@RequestBody @Valid rootUser value) {
         return new ResponseEntity<>(rus.saveUser(value), HttpStatus.CREATED);
     }
-    @PutMapping public ResponseEntity<Object> editUser(@RequestParam Integer id,@RequestBody @Valid rootUser value) {
-        return new ResponseEntity<>(rus.editUser(id,value),HttpStatus.ACCEPTED);
+    @PutMapping public ResponseEntity<String> editUser(@RequestParam Integer id,@RequestParam(required = false) String name,@RequestParam(required = false) String mail) {
+        return new ResponseEntity<>(rus.editUser(id,name,mail),HttpStatus.ACCEPTED);
     }
     @DeleteMapping public ResponseEntity<String> deleteUser(@RequestParam Integer id) {
         return new ResponseEntity<>(rus.deleteUser(id),HttpStatus.OK);
@@ -53,5 +53,11 @@ public class rootUserController {
     }
     @PutMapping(ENDPOINT_23) public ResponseEntity<String> change(@RequestParam Integer id, @RequestParam String password) {
         return new ResponseEntity<>(rus.change(id, password),HttpStatus.ACCEPTED);
+    }
+    @GetMapping(ENDPOINT_24) public ResponseEntity<forget> details(@RequestParam Integer id) {
+        return new ResponseEntity<>(rus.details(id),HttpStatus.OK);
+    }
+    @PutMapping(ENDPOINT_25) public ResponseEntity<String> inlineChange(@RequestParam Integer id,@RequestParam String old_password, @RequestParam String password) {
+        return new ResponseEntity<>(rus.inlineChange(id, old_password, password),HttpStatus.ACCEPTED);
     }
 }

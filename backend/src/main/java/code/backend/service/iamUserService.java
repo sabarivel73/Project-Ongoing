@@ -68,7 +68,7 @@ public class iamUserService {
         iamUser value = iamur.login(domain_name.toLowerCase(),user_name.toLowerCase());
         if(value==null) return "Domain name or User name was not found";
         if(!passwordEncoder.matches(password, value.getPassword())) return "Password was wrong";
-        return "IAM User logged in successfully";
+        return "IAM User logged in successfully and iamUser ID : "+value.getId();
     }
     public Integer iamUserCount(Integer rootUser_id,String domain_name) {
         return iamur.iamUserCount(rootUser_id,domain_name);

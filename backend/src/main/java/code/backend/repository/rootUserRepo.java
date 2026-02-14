@@ -9,8 +9,8 @@ import org.springframework.data.repository.query.Param;
 public interface rootUserRepo extends JpaRepository<rootUser,Integer> {
     @Query(value = "select id from root_user where name like :name_value",nativeQuery = true)
     Integer rootUserID(@Param("name_value") String name);
-    @Query(value = "select password from root_user where name like :name_value",nativeQuery = true)
-    String login(@Param("name_value") String name);
-    @Query(value = "select id,email from root_user where email like :email_value",nativeQuery = true)
+    @Query(value = "select * from root_user where name like :name_value",nativeQuery = true)
+    rootUser login(@Param("name_value") String name);
+    @Query(value = "select id,email,name from root_user where email like :email_value",nativeQuery = true)
     forget email(@Param("email_value") String email);
 }

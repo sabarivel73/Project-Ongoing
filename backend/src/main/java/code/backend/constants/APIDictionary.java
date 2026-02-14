@@ -25,4 +25,6 @@ public class APIDictionary {
     public static final String ENDPOINT_21 = "/responded";
     public static final String ENDPOINT_22 = "/delete";
     public static final String ENDPOINT_23 = "/change";
+    public static final String ENDPOINT_24 = "/details";
+    public static final String ENDPOINT_25 = "/inline_change";
 }

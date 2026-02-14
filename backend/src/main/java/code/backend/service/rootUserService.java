@@ -52,29 +52,33 @@ public class rootUserService {
         return "User saved";
     }
     public rootUser find(Integer value) { return rur.findById(value).orElse(null); }
-    public Object editUser(Integer id,rootUser value) {
+    public String editUser(Integer id,String name,String mail) {
         rootUser data = find(id);
-        String name = value.getName().toLowerCase();
-        int count = 0;
-        for(int i=0;i<name.length();i++) {
-            if(name.charAt(i)>='a' && name.charAt(i)<='z') count++;
+        if(name!=null) {
+            name = name.toLowerCase();
+            int count = 0;
+            for (int i = 0; i < name.length(); i++) {
+                if (name.charAt(i) >= 'a' && name.charAt(i) <= 'z') count++;
+            }
+            if (count != name.length()) return "Name field only accepts letters only not even a space";
+            if (rur.rootUserID(name) != null) return "User name already exist";
+            data.setName(name);
         }
-        if(count!=name.length()) return "Name field only accepts letters only not even a space";
-        if(rur.rootUserID(value.getName().toLowerCase())!=null) return "User name already exist";
-        if(value.getPassword().length()>16 || value.getPassword().length()<8) return "Password size min = 8 and max = 16";
-        String password = passwordEncoder.encode(value.getPassword());
-        data.setName(value.getName().toLowerCase());
-        data.setPassword(password);
-        String mail = "";
-        boolean check = false;
-        for(int i=0;i<value.getEmail().length();i++) {
-            if(value.getEmail().charAt(i)=='@') check = true;
-            if(check) mail += value.getEmail().charAt(i);
+        if(mail!=null) {
+            mail = mail.toLowerCase();
+            String mail_value = "";
+            boolean check = false;
+            for (int i = 0; i < mail.length(); i++) {
+                if (mail.charAt(i) == '@') check = true;
+                if (check) mail_value += mail.charAt(i);
+            }
+            if (!mail_value.equals("@gmail.com")) return "For now we only allow email end up with @gmail.com address";
+            forget v = rur.email(mail);
+            if(v!=null) return "Email already exist";
+            data.setEmail(mail);
         }
-        if(!mail.equals("@gmail.com")) return "For now we only allow email end up with @gmail.com address";
-        data.setEmail(value.getEmail().toLowerCase());
         rur.save(data);
-        return data;
+        return "Profile edited successfully";
     }
     public String deleteUser(Integer id){
         List<Integer> value = dr.idsrootUserDomain(id);
@@ -86,10 +90,10 @@ public class rootUserService {
     }
     public String loginrootUser(String user_name,String password) {
         vr.delete_validation();
-        String value = rur.login(user_name.toLowerCase());
+        rootUser value = rur.login(user_name.toLowerCase());
         if(value==null) return "No User name found";
-        if(!passwordEncoder.matches(password,value)) return "Password was wrong";
-        return "User logged in successfully";
+        if(!passwordEncoder.matches(password,value.getPassword())) return "Password was wrong";
+        return "User logged in successfully and rootUser ID : "+value.getId();
     }
     public Object sendMail(String mail) throws IOException {
         String mailValue = "";
@@ -100,8 +104,7 @@ public class rootUserService {
         }
         if(!mailValue.equals("@gmail.com")) return "For now we only allow email end up with @gmail.com address";
         forget v = rur.email(mail.toLowerCase());
-        String email = v.getEmail();
-        if(email==null) return "Email not found";
+        if(v==null) return "Email not found";
         Integer value = (int)(Math.random()*9000)+1000;
         validation data = new validation();
         data.setValue(value);
@@ -132,6 +135,19 @@ public class rootUserService {
         if(value==null) return "User not found";
         String passwordValue = passwordEncoder.encode(password);
         value.setPassword(passwordValue);
+        rur.save(value);
+        return "Password changed successfully";
+    }
+    public forget details(Integer id) {
+        rootUser value = rur.findById(id).orElse(null);
+        if(value==null) return null;
+        return new forget(value.getId(),value.getEmail(),value.getName());
+    }
+    public String inlineChange(Integer id, String old_password, String password) {
+        rootUser value = rur.findById(id).orElse(null);
+        if(value==null) return "No user found";
+        if(!passwordEncoder.matches(old_password,value.getPassword())) return "Old password was wrong";
+        value.setPassword(passwordEncoder.encode(password));
         rur.save(value);
         return "Password changed successfully";
     }
