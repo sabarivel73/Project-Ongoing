@@ -25,7 +25,7 @@ public class domainService {
         value.setDomain_name(name.toLowerCase());
         value.setRootUser_id(id);
         dr.save(value);
-        return "Domain created"+" : "+name.toLowerCase();
+        return "Domain created";
     }
     public domain find(Integer value) { return dr.findById(value).orElse(null); }
     public String editDomain(Integer id,String name) {
