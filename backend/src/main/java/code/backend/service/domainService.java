@@ -28,7 +28,7 @@ public class domainService {
         return "Domain created";
     }
     public domain find(Integer value) { return dr.findById(value).orElse(null); }
-    public String editDomain(Integer id,String name) {
+    /*public String editDomain(Integer id,String name) {
         domain data = find(id);
         String nameValue = name.toLowerCase();
         int count = 0;
@@ -39,8 +39,8 @@ public class domainService {
         if(dr.domain_id(name.toLowerCase())!=null) return "Domain name already exist";
         data.setDomain_name(name.toLowerCase());
         dr.save(data);
-        return "Domain edited"+" : "+name.toLowerCase();
-    }
+        return "Domain edited";
+    }*/
     public String deleteDomain(Integer id) {
         String result = "Domain deleted and All IAM Users belong to this domain also deleted"+" : "+find(id).getDomain_name();
         iamur.deleteiamUserDomain(find(id).getDomain_name());

@@ -21,9 +21,9 @@ public class domainController {
     @Autowired private iamUserService iamus;
     @Autowired private domainAnnouncementService das;
     @Autowired private userQueriesService uqs;
-    @PutMapping public ResponseEntity<String> editDomain(@RequestParam Integer id, @RequestParam String name) {
+    /*@PutMapping public ResponseEntity<String> editDomain(@RequestParam Integer id, @RequestParam String name) {
         return new ResponseEntity<>(ds.editDomain(id, name),HttpStatus.ACCEPTED);
-    }
+    }*/
     @DeleteMapping public ResponseEntity<String> deleteDomain(@RequestParam Integer id) {
         return new ResponseEntity<>(ds.deleteDomain(id),HttpStatus.OK);
     }
