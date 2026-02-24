@@ -37,7 +37,14 @@ public class userQueriesController {
     @GetMapping(ENDPOINT_20) public ResponseEntity<List<userQueries>> yetToResponse(@RequestParam Integer iamUser_id) {
         return new ResponseEntity<>(uqs.yetToResponse(iamUser_id),HttpStatus.OK);
     }
+    @GetMapping(ENDPOINT_1+ENDPOINT_20) public ResponseEntity<List<userdomainQueriesResponse>> yetToResponseRootUser(@RequestParam String domain_name) {
+        return new ResponseEntity<>(uqs.yetToResponseRootUser(domain_name),HttpStatus.OK);
+    }
     @GetMapping(ENDPOINT_21) public ResponseEntity<List<userQueries>> respondedQueries(@RequestParam Integer iamUser_id) {
         return new ResponseEntity<>(uqs.respondedQueries(iamUser_id),HttpStatus.OK);
     }
+    @GetMapping(ENDPOINT_1+ENDPOINT_21) public ResponseEntity<List<userdomainQueriesResponse>> respondedQueriesRootUser(@RequestParam String domain_name) {
+        return new ResponseEntity<>(uqs.respondedQueriesRootUser(domain_name),HttpStatus.OK);
+    }
+
 }

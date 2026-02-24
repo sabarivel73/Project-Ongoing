@@ -3,6 +3,7 @@ package code.backend.service;
 import code.backend.entity.iamUser;
 import code.backend.repository.iamUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,35 +31,22 @@ public class iamUserService {
         return "IAM user created under this domain - "+value.getDomain_name();
     }
     public iamUser find(Integer id) { return iamur.findById(id).orElse(null); }
-    public String editiamUser(iamUser value,Integer id) {
-        String result = "";
-        iamUser data = find(id);
-        String name = value.getName().toLowerCase();
-        int count = 0;
-        for(int i=0;i<name.length();i++) {
-            if(name.charAt(i)>='a' && name.charAt(i)<='z') count++;
+    public String editiamUser(Integer id, String role, String password) {
+        iamUser value = iamur.findById(id).orElse(null);
+        if(value==null) return "No IAM user found";
+        if(role!=null) {
+            value.setRole(role);
         }
-        if(count!=name.length()) return "Name field only accepts letters only not even a space";
-        if(!data.getName().equals(value.getName().toLowerCase())) {
-            if(iamur.iamUserID(value.getName().toLowerCase(),data.getDomain_name())!=null) return "IAM User name already exist in this domain";
-            data.setName(value.getName().toLowerCase());
-            result += "Name - "+value.getName().toLowerCase()+" ";
+        if(password!=null) {
+            value.setPassword(passwordEncoder.encode(password));
         }
-        if(value.getPassword().length()>16 || value.getPassword().length()<8) return "Password size min = 8 and max = 16";
-        if(!data.getPassword().equals(value.getPassword())) {
-            String password = passwordEncoder.encode(value.getPassword());
-            data.setPassword(password);
-            result += "Password ";
-        }
-        iamur.save(data);
-        result += "successfully edited";
-        return result;
+        iamur.save(value);
+        return "IAM user edit successfully";
     }
     public String deleteiamUser(Integer id) {
         iamUser value = find(id);
-        String result = "IAM user name - "+value.getName()+" under "+value.getDomain_name()+" this domain was deleted";
         iamur.deleteById(id);
-        return result;
+        return "IAM user deleted";
     }
     public List<iamUser> getAlliamUser(String domain_name,String search) {
         if(search==null) return iamur.findAll(domain_name.toLowerCase(),null,null,null);

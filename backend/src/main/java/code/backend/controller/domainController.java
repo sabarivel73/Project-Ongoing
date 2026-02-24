@@ -30,8 +30,8 @@ public class domainController {
     @PostMapping(ENDPOINT_3) public ResponseEntity<String> saveiamUser(@RequestBody iamUser value, @RequestParam Integer id,@RequestParam String domain_name) {
         return new ResponseEntity<>(iamus.saveiamUser(value, id, domain_name),HttpStatus.CREATED);
     }
-    @PutMapping(ENDPOINT_3) public ResponseEntity<String> editiamUser(@RequestBody iamUser value,@RequestParam Integer id) {
-        return new ResponseEntity<>(iamus.editiamUser(value, id),HttpStatus.ACCEPTED);
+    @PutMapping(ENDPOINT_3) public ResponseEntity<String> editiamUser(@RequestParam Integer id, @RequestParam(required = false) String role, @RequestParam(required = false) String password) {
+        return new ResponseEntity<>(iamus.editiamUser(id,role,password),HttpStatus.ACCEPTED);
     }
     @DeleteMapping(ENDPOINT_3) public ResponseEntity<String> deleteiamUser(@RequestParam Integer id) {
         return new ResponseEntity<>(iamus.deleteiamUser(id),HttpStatus.OK);

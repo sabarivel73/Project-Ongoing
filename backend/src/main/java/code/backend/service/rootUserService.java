@@ -88,12 +88,14 @@ public class rootUserService {
         rur.deleteById(id);
         return "User deleted and also All Domain are deleted belong to this User";
     }
-    public String loginrootUser(String user_name,String password) {
+    public String loginrootUser(String user_name,String email, String password) {
         vr.delete_validation();
-        rootUser value = rur.login(user_name.toLowerCase());
-        if(value==null) return "No User name found";
+        rootUser value;
+        if(user_name==null) value = rur.login(null,email.toLowerCase());
+        else value = rur.login(user_name,null);
+        if(value==null) return "No User name or email found";
         if(!passwordEncoder.matches(password,value.getPassword())) return "Password was wrong";
-        return "User logged in successfully and rootUser ID : "+value.getId();
+        return "User logged in successfully and rootUser ID : "+value.getId()+" rootUser name : "+value.getName();
     }
     public Object sendMail(String mail) throws IOException {
         String mailValue = "";

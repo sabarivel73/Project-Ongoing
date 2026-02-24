@@ -15,7 +15,7 @@ import static code.backend.constants.APIDictionary.*;
 @RequestMapping(API+ENDPOINT_4)
 public class loginrootUser {
     @Autowired private rootUserService rus;
-    @GetMapping(ENDPOINT_1) public ResponseEntity<String> loginrootUser(@RequestParam String user_name,@RequestParam String password) {
-        return new ResponseEntity<>(rus.loginrootUser(user_name,password), HttpStatus.OK);
+    @GetMapping(ENDPOINT_1) public ResponseEntity<String> loginrootUser(@RequestParam(required = false) String user_name, @RequestParam(required = false) String email, @RequestParam String password) {
+        return new ResponseEntity<>(rus.loginrootUser(user_name,email,password), HttpStatus.OK);
     }
 }

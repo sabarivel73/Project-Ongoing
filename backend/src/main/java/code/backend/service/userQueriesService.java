@@ -11,6 +11,7 @@ import java.util.List;
 
 @Service
 public class userQueriesService {
+
     @Autowired private userQueriesRepo uqr;
     public String send_query(Integer sender_id,String domain_name,String query,String response) {
         userQueries value = new userQueries();
@@ -28,8 +29,14 @@ public class userQueriesService {
     public List<userQueries> yetToResponse(Integer iamUser_id) {
         return uqr.yetToResponse(iamUser_id);
     }
+    public List<userdomainQueriesResponse> yetToResponseRootUser(String domain_name) {
+        return uqr.yetToResponseRootUser(domain_name);
+    }
     public List<userQueries> respondedQueries(Integer iamUser_id) {
         return uqr.respondedQueries(iamUser_id);
+    }
+    public List<userdomainQueriesResponse> respondedQueriesRootUser(String domain_name) {
+        return uqr.respondedQueriesRootUser(domain_name);
     }
     public String edit_query(Integer id, String query) {
         userQueries value = uqr.findById(id).orElse(null);
