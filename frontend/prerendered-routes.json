@@ -1,0 +1,20 @@
+{
+  "routes": {
+    "/": {},
+    "/auth-v1": {},
+    "/domain-explorer-v9z": {},
+    "/edit-iam-c4k": {},
+    "/edit-profile-v7y": {},
+    "/new-domain-v8x": {},
+    "/queries-v5t": {},
+    "/reg-iam-f3n": {},
+    "/reg-new-8d2": {},
+    "/reset-init-7a2": {},
+    "/root-home-v2b": {},
+    "/secure-upd-v4k": {},
+    "/upd-cred-3f4": {},
+    "/v-secure-9b1": {},
+    "/view-domain-k2m": {},
+    "/view-iam-z5x": {}
+  }
+}
