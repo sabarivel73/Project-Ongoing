@@ -2,10 +2,13 @@
   "routes": {
     "/": {},
     "/auth-v1": {},
+    "/create-announcement-n3y": {},
     "/domain-explorer-v9z": {},
+    "/edit-announcement-m5z": {},
     "/edit-iam-c4k": {},
     "/edit-profile-v7y": {},
     "/new-domain-v8x": {},
+    "/post-announcement-v2x": {},
     "/queries-v5t": {},
     "/reg-iam-f3n": {},
     "/reg-new-8d2": {},

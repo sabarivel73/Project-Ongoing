@@ -41,4 +41,7 @@ public class domainAnnouncementController {
     @DeleteMapping public ResponseEntity<String> delete_announcement(@RequestParam Integer id) throws IOException {
         return new ResponseEntity<>(das.delete_announcement(id),HttpStatus.OK);
     }
+    @PutMapping(ENDPOINT_26) public ResponseEntity<String> remove_exist(@RequestParam Integer id) throws IOException {
+        return new ResponseEntity<>(das.remove_exist(id),HttpStatus.OK);
+    }
 }

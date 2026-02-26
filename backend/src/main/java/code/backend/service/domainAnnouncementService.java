@@ -24,6 +24,7 @@ public class domainAnnouncementService {
     @Value("${spring.aws.bucket_name}") private String bucket_name;
     @Autowired private domainAnnouncementRepo dar;
     @Autowired private S3Client s3Client;
+    private boolean re = false;
     public String post_announcement(Integer rootUser_id, String domain_name, String content, MultipartFile attachment) throws IOException {
         domainAnnouncement value = new domainAnnouncement();
         value.setRootUser_id(rootUser_id);
@@ -71,13 +72,6 @@ public class domainAnnouncementService {
             result += "Content successfully edited";
         }
         if(attachment!=null && !attachment.isEmpty()) {
-            if(value.getAttachmentKey()!=null) {
-                DeleteObjectRequest file = DeleteObjectRequest.builder()
-                        .bucket(bucket_name)
-                        .key(value.getAttachmentKey())
-                        .build();
-                s3Client.deleteObject(file);
-            }
             if(attachment.getSize()>50*1024*1024) return "File size limit exceeded";
             String key = UUID.randomUUID() + "_" + attachment.getOriginalFilename();
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()
@@ -94,7 +88,28 @@ public class domainAnnouncementService {
             result += "attachment updated successfully";
         }
         dar.save(value);
+        if(re) {
+            re = false;
+            return "attachment updated successfully";
+        }
         return result.isEmpty()?"No changes found":result;
+    }
+    public String remove_exist(Integer id) throws IOException {
+        domainAnnouncement value = dar.findById(id).orElse(null);
+        if(value==null) return "No announcement found";
+        if(value.getAttachmentKey()!=null) {
+            DeleteObjectRequest file = DeleteObjectRequest.builder()
+                    .bucket(bucket_name)
+                    .key(value.getAttachmentKey())
+                    .build();
+            s3Client.deleteObject(file);
+            value.setAttachmentType(null);
+            value.setAttachmentKey(null);
+            value.setAttachmentUrl(null);
+        }
+        dar.save(value);
+        re = true;
+        return "Successfully removed existing file";
     }
     public String delete_announcement(Integer id) throws IOException {
         domainAnnouncement value = dar.findById(id).orElse(null);
