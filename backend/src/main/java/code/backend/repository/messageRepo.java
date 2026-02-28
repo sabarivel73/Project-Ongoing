@@ -1,5 +1,6 @@
 package code.backend.repository;
 
+import code.backend.entity.displayChat;
 import code.backend.entity.message;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -16,4 +17,6 @@ public interface messageRepo extends JpaRepository<message,Integer> {
     void delete_message(@Param("id_value") Integer id);
     @Query(value = "select * from message where id = :id_value and sender_id = :current_user_id_value",nativeQuery = true)
     message find_sender(@Param("id_value") Integer id,@Param("current_user_id_value") Integer current_user_id);
+    @Query(value = "select distinct case when sender_id = :id_value then receiver_id when receiver_id = :id_value then sender_id end as user_id,timestamp from message order by timestamp desc",nativeQuery = true)
+    List<displayChat> chat(@Param("id_value") Integer id);
 }

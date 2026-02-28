@@ -1,5 +1,6 @@
 package code.backend.controller;
 
+import code.backend.entity.displayChat;
 import code.backend.entity.message;
 import code.backend.service.messageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,8 @@ public class messageController {
     }
     @GetMapping(ENDPOINT_10) public ResponseEntity<String> find_sender(@RequestParam Integer id, @RequestParam Integer current_user_id) {
         return new ResponseEntity<>(ms.find_sender(id, current_user_id),HttpStatus.OK);
+    }
+    @GetMapping(ENDPOINT_27) public ResponseEntity<List<displayChat>> chat(@RequestParam Integer id) {
+        return new ResponseEntity<>(ms.chat(id),HttpStatus.OK);
     }
 }

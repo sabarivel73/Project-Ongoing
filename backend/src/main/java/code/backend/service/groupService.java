@@ -41,19 +41,8 @@ public class groupService {
         if(gr.find_createdBy(id, current_user_id)!=null) return "Created by this user";
         return "Not created by this user";
     }
-    public List<group> subscriber_group(Integer subscriber_id,String domain_name) {
-        List<group> value = gr.subscriber_group(domain_name);
-        List<group> result = new ArrayList<>();
-        for(int i=0;i<value.size();i++) {
-            List<Integer> user = value.get(i).getSubscribers();
-            for(int j=0;j<user.size();j++) {
-                if(subscriber_id.equals(user.get(j))) {
-                    result.add(value.get(i));
-                    break;
-                }
-            }
-        }
-        return result;
+    public List<group> subscriber_group(Integer iamUser_id,String domain_name) {
+        return gr.subscriber_group(iamUser_id,domain_name);
     }
     public String leave_group(Integer group_id,Integer subscriber_id) {
         group value = gr.findById(group_id).orElse(null);

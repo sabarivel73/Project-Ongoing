@@ -1,5 +1,6 @@
 package code.backend.service;
 
+import code.backend.entity.displayChat;
 import code.backend.entity.message;
 import code.backend.repository.messageRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,5 +86,8 @@ public class messageService {
     public String find_sender(Integer id,Integer current_user_id) {
         if(mr.find_sender(id, current_user_id)!=null) return "Sender";
         return "Not sender";
+    }
+    public List<displayChat> chat(Integer id) {
+        return mr.chat(id);
     }
 }
