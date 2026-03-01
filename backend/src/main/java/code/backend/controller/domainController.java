@@ -49,9 +49,9 @@ public class domainController {
         Integer value_1 = iamus.iamUserCount(rootUser_id, domain_name);
         Integer value_2 = das.announcementCount(domain_name);
         Integer value_3 = uqs.queriesCount(domain_name);
-        Object result = "Number of IAM users : "+value_1;
-        result += " and Number of announcement in this domain : "+value_2;
-        result += " and Number of queries yet to response in this domain : "+value_3;
-        return new ResponseEntity<>(result,HttpStatus.OK);
+        Object result = "Number of IAM users : " + value_1;
+        result += " and Number of announcement in this domain : " + value_2;
+        result += " and Number of queries yet to response in this domain : " + value_3;
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

@@ -21,4 +21,7 @@ public class iamUserController {
     @GetMapping("/{id}") public ResponseEntity<iamUser> getiamUser(@PathVariable Integer id) {
         return new ResponseEntity<>(iamus.find(id),HttpStatus.FOUND);
     }
+    @GetMapping(ENDPOINT_28) public ResponseEntity<String> check(@RequestParam Integer id) {
+        return new ResponseEntity<>(iamus.check(id),HttpStatus.OK);
+    }
 }

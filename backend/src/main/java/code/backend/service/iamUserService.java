@@ -3,7 +3,6 @@ package code.backend.service;
 import code.backend.entity.iamUser;
 import code.backend.repository.iamUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -60,5 +59,9 @@ public class iamUserService {
     }
     public Integer iamUserCount(Integer rootUser_id,String domain_name) {
         return iamur.iamUserCount(rootUser_id,domain_name);
+    }
+    public String check(Integer id) {
+        if(iamur.check(id)!=null) return "IAM user available";
+        return "IAM user not available";
     }
 }

@@ -20,4 +20,6 @@ public interface iamUserRepo extends JpaRepository<iamUser,Integer> {
     iamUser login(@Param("domain_name_value") String domain_name,@Param("name_value") String name);
     @Query(value = "select count(*) from iam_user where root_user_id = :rootUser_id_value and (:domain_name_value is null or domain_name like :domain_name_value)",nativeQuery = true)
     Integer iamUserCount(@Param("rootUser_id_value") Integer rootUser_id,@Param("domain_name_value") String domain_name);
+    @Query(value = "select id from iam_user where id = :id_value",nativeQuery = true)
+    Integer check(@Param("id_value") Integer id);
 }
