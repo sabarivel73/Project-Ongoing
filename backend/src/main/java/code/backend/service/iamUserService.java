@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class iamUserService {
@@ -29,7 +30,12 @@ public class iamUserService {
         iamur.save(value);
         return "IAM user created under this domain - "+value.getDomain_name();
     }
-    public iamUser find(Integer id) { return iamur.findById(id).orElse(null); }
+    public iamUser find(Integer id) {
+        iamUser result = iamur.findById(id).orElse(null);
+        result.setPassword(null);
+        result.setRootUser_id(null);
+        return result;
+    }
     public String editiamUser(Integer id, String role, String password) {
         iamUser value = iamur.findById(id).orElse(null);
         if(value==null) return "No IAM user found";
@@ -43,13 +49,23 @@ public class iamUserService {
         return "IAM user edit successfully";
     }
     public String deleteiamUser(Integer id) {
-        iamUser value = find(id);
         iamur.deleteById(id);
         return "IAM user deleted";
     }
-    public List<iamUser> getAlliamUser(String domain_name,String search) {
-        if(search==null) return iamur.findAll(domain_name.toLowerCase(),null,null,null);
-        return iamur.findAll(domain_name.toLowerCase(),search,"%"+search.toLowerCase(),"%"+search.toLowerCase()+"%");
+    public List<iamUser> getAlliamUser(Integer id,String domain_name,String search) {
+        List<Object[]> value;
+        if(search==null) value = iamur.findAll(id,domain_name.toLowerCase(),null,null,null);
+        else value = iamur.findAll(id,domain_name.toLowerCase(),search,"%"+search.toLowerCase(),"%"+search.toLowerCase()+"%");
+        List<iamUser> result = value.stream()
+                .map(v->new iamUser(
+                        (Integer) v[0],
+                        (String) v[1],
+                        null,
+                        (String) v[2],
+                        (String) v[3],
+                        null
+                )).collect(Collectors.toList());
+        return result;
     }
     public String loginiamUser(String domain_name,String user_name,String password) {
         iamUser value = iamur.login(domain_name.toLowerCase(),user_name.toLowerCase());

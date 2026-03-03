@@ -21,4 +21,15 @@ public class iamUser {
     private String role;
     @Column(name = "rootUser_id")
     private Integer rootUser_id;
+
+    public iamUser() {}
+
+    public iamUser(Integer id, String name, String password, String domain_name, String role, Integer rootUser_id) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.domain_name = domain_name;
+        this.role = role;
+        this.rootUser_id = rootUser_id;
+    }
 }
