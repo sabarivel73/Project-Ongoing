@@ -25,7 +25,7 @@ public class messageService {
     @Value("${spring.aws.bucket_name}") private String bucket_name;
     @Autowired private messageRepo mr;
     @Autowired private S3Client s3Client;
-    public Object send_message(Integer sender_id, Integer receiver_id, String content, MultipartFile attachment) throws IOException {
+    public String send_message(Integer sender_id, Integer receiver_id, String content, MultipartFile attachment) throws IOException {
         message value = new message();
         value.setSender_id(sender_id);
         value.setReceiver_id(receiver_id);
@@ -45,10 +45,11 @@ public class messageService {
             value.setAttachmentUrl(fileUrl);
             value.setAttachmentType(attachment.getContentType());
         }
-        return mr.save(value);
+        mr.save(value);
+        return "Message sent successfully";
     }
-    public List<message> get_messages(Integer sender_id,Integer receiver_id) {
-        return mr.get_messages(sender_id,receiver_id);
+    public List<message> get_messages(Integer current_user_id,Integer iam_user_id) {
+        return mr.get_messages(current_user_id,iam_user_id);
     }
     public byte[] download_file(String key) throws IOException {
         GetObjectRequest getObjectRequest = GetObjectRequest.builder()

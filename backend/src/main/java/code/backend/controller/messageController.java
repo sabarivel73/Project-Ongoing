@@ -20,11 +20,11 @@ import static code.backend.constants.APIDictionary.*;
 @RequestMapping(API+ENDPOINT_5)
 public class messageController {
     @Autowired private messageService ms;
-    @PostMapping public ResponseEntity<Object> send_message(@RequestParam Integer sender_id, @RequestParam Integer receiver_id, @RequestParam(required = false) String content, @RequestParam(required = false) MultipartFile attachment) throws IOException {
+    @PostMapping public ResponseEntity<String> send_message(@RequestParam Integer sender_id, @RequestParam Integer receiver_id, @RequestParam(required = false) String content, @RequestParam(required = false) MultipartFile attachment) throws IOException {
         return new ResponseEntity<>(ms.send_message(sender_id, receiver_id, content, attachment), HttpStatus.CREATED);
     }
-    @GetMapping public ResponseEntity<List<message>> get_messages(@RequestParam Integer sender_id,@RequestParam Integer receiver_id) {
-        return new ResponseEntity<>(ms.get_messages(sender_id,receiver_id),HttpStatus.OK);
+    @GetMapping public ResponseEntity<List<message>> get_messages(@RequestParam Integer current_user_id,@RequestParam Integer iam_user_id) {
+        return new ResponseEntity<>(ms.get_messages(current_user_id,iam_user_id),HttpStatus.OK);
     }
     @GetMapping(ENDPOINT_6) public ResponseEntity<byte[]> download_file(@RequestParam String key) throws IOException {
         byte[] value = ms.download_file(key);
