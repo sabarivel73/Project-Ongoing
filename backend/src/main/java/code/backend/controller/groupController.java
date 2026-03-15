@@ -21,6 +21,9 @@ public class groupController {
     @PostMapping(ENDPOINT_8) public ResponseEntity<String> add_subscriber(@RequestParam Integer group_id,@RequestParam Integer subscriber_id) {
         return new ResponseEntity<>(gs.add_subscriber(group_id, subscriber_id), HttpStatus.CREATED);
     }
+    @PutMapping public ResponseEntity<String> edit_group(@RequestParam Integer group_id,@RequestParam String domain_name,@RequestParam(required = false) String group_name,@RequestParam(required = false) List<Integer> add_users,@RequestParam(required = false) List<Integer> remove_users) {
+        return new ResponseEntity<>(gs.edit_group(group_id, domain_name, group_name, add_users, remove_users),HttpStatus.OK);
+    }
     @DeleteMapping public ResponseEntity<String> delete_group(@RequestParam Integer id) {
         return new ResponseEntity<>(gs.delete_group(id),HttpStatus.OK);
     }

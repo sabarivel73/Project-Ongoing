@@ -25,7 +25,7 @@ public class groupMessageService {
     @Value("${spring.aws.bucket_name}") private String bucket_name;
     @Autowired private groupMessageRepo gmr;
     @Autowired private S3Client s3Client;
-    public Object send_message(Integer group_id, Integer sender_id, String domain_name, String content, MultipartFile attachment) throws IOException {
+    public String send_message(Integer group_id, Integer sender_id, String domain_name, String content, MultipartFile attachment) throws IOException {
         groupMessage value = new groupMessage();
         value.setGroupId(group_id);
         value.setSenderId(sender_id);
@@ -46,7 +46,8 @@ public class groupMessageService {
             value.setAttachmentUrl(fileUrl);
             value.setAttachmentType(attachment.getContentType());
         }
-        return gmr.save(value);
+        gmr.save(value);
+        return "Message sent successfully";
     }
     public List<groupMessageResponse> get_message(Integer group_id, String domain_name) {
         return gmr.get_message(group_id,domain_name);
@@ -70,7 +71,7 @@ public class groupMessageService {
         }
         return "No changes found";
     }
-    public String delete_message(Integer id) throws IOException {
+    public String delete_message(Integer id) {
         groupMessage value = gmr.findById(id).orElse(null);
         if(value==null) return "Message not found";
         if(value.getAttachmentKey()!=null) {

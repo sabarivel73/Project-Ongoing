@@ -11,10 +11,10 @@ export default `<!doctype html>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0">
-<style>body{margin:0;padding:0;background-color:#000;font-family:Inter,sans-serif}</style><link rel="stylesheet" href="styles-VXVM6HWE.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="styles-VXVM6HWE.css"></noscript></head>
+<style>*{box-sizing:border-box}html,body{margin:0;padding:0;overflow-x:hidden;width:100%;background-color:#000;font-family:Inter,sans-serif;-webkit-tap-highlight-color:transparent}</style><link rel="stylesheet" href="styles-DYHGH45A.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="styles-DYHGH45A.css"></noscript></head>
 
 <body ngcm="">
   <app-root></app-root>
-<link rel="modulepreload" href="chunk-IKE3PB57.js"><link rel="modulepreload" href="chunk-XWMWCHZC.js"><script src="main-62J5QH5N.js" type="module"></script></body>
+<link rel="modulepreload" href="chunk-6AWFC5UZ.js"><link rel="modulepreload" href="chunk-7L4BQTN5.js"><script src="main-RCZNHKOJ.js" type="module"></script></body>
 
 </html>`;

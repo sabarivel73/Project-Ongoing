@@ -19,7 +19,7 @@ import static code.backend.constants.APIDictionary.*;
 @RequestMapping(API+ENDPOINT_9)
 public class groupMessageController {
     @Autowired private groupMessageService gms;
-    @PostMapping public ResponseEntity<Object> send_message(@RequestParam Integer group_id,@RequestParam Integer sender_id,@RequestParam String domain_name, @RequestParam(required = false) String content, @RequestParam(required = false) MultipartFile attachment) throws IOException {
+    @PostMapping public ResponseEntity<String> send_message(@RequestParam Integer group_id,@RequestParam Integer sender_id,@RequestParam String domain_name, @RequestParam(required = false) String content, @RequestParam(required = false) MultipartFile attachment) throws IOException {
         return new ResponseEntity<>(gms.send_message(group_id, sender_id, domain_name, content, attachment), HttpStatus.CREATED);
     }
     @GetMapping public ResponseEntity<List<groupMessageResponse>> get_message(@RequestParam Integer group_id, @RequestParam String domain_name) {
@@ -35,7 +35,7 @@ public class groupMessageController {
     @PutMapping public ResponseEntity<String> edit_message(@RequestParam Integer id,@RequestParam(required = false) String content) {
         return new ResponseEntity<>(gms.edit_message(id,content),HttpStatus.OK);
     }
-    @DeleteMapping public ResponseEntity<String> delete_message(@RequestParam Integer id) throws IOException {
+    @DeleteMapping public ResponseEntity<String> delete_message(@RequestParam Integer id) {
         return new ResponseEntity<>(gms.delete_message(id),HttpStatus.OK);
     }
     @GetMapping(ENDPOINT_10) public ResponseEntity<String> find_sender(@RequestParam Integer id, @RequestParam Integer current_user_id) {

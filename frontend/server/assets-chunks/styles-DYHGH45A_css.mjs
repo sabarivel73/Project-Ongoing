@@ -1,0 +1,2 @@
+export default `*{box-sizing:border-box}html,body{margin:0;padding:0;overflow-x:hidden;width:100%;background-color:#000;font-family:Inter,sans-serif;-webkit-tap-highlight-color:transparent}@keyframes spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}.rotating{animation:spin 1s linear infinite;display:inline-block;color:#000;filter:drop-shadow(0 0 5px rgba(0,0,0,.4))}.download-btn:disabled{cursor:not-allowed;opacity:.7}
+`;

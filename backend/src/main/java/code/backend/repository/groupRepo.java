@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface groupRepo extends JpaRepository<group,Integer> {
     group find_createdBy(@Param("id_value") Integer id, @Param("current_user_id_value") Integer current_user_id);
     @Query(value="select * from group_table where :iamUser_id_value = any(subscribers) and domain_name like :domain_name_value",nativeQuery = true)
     List<group> subscriber_group(@Param("iamUser_id_value") Integer iamUser_id,@Param("domain_name_value") String domain_name);
+    @Query(value = "select id from group_table where group_name like :group_name_value and domain_name like :domain_name_value",nativeQuery = true)
+    Integer group_exist(@Param("group_name_value") String group_name, @Param("domain_name_value") String domain_name);
 }

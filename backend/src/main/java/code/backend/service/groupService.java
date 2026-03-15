@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -13,15 +14,16 @@ public class groupService {
     @Autowired private groupRepo gr;
     @Autowired private groupMessageService gms;
     public String create_group(Integer createdBy, String group_name,String domain_name) {
+        if(gr.group_exist(group_name.toLowerCase(),domain_name)!=null) return "Group name already exist";
         group value = new group();
         value.setCreatedBy(createdBy);
-        value.setGroup_name(group_name);
+        value.setGroup_name(group_name.toLowerCase());
         value.setDomain_name(domain_name);
         List<Integer> values = new ArrayList<>();
         values.add(createdBy);
         value.setSubscribers(values);
         gr.save(value);
-        return "Group created";
+        return "Group created and group id is : " + value.getId();
     }
     public String add_subscriber(Integer group_id,Integer subscriber_id) {
         group value = gr.findById(group_id).orElse(null);
@@ -31,6 +33,35 @@ public class groupService {
         value.setSubscribers(values);
         gr.save(value);
         return "Subscriber successfully added";
+    }
+    public String edit_group(Integer group_id,String domain_name,String group_name,List<Integer> add_users,List<Integer> remove_users) {
+        group value = gr.findById(group_id).orElse(null);
+        if(value==null) return "Group not found";
+        if(group_name!=null) {
+            if(gr.group_exist(group_name.toLowerCase(),domain_name)!=null) return "Group name already exist";
+            value.setGroup_name(group_name.toLowerCase());
+        }
+        else if(remove_users!=null) {
+            List<Integer> users = value.getSubscribers();
+            HashMap<Integer,Integer> map = new HashMap<>();
+            for (int i=0;i<remove_users.size();i++) {
+                map.put(remove_users.get(i),i);
+            }
+            remove_users.clear();
+            for (Integer user : users) {
+                if (map.containsKey(user)) continue;
+                remove_users.add(user);
+            }
+            value.setSubscribers(remove_users);
+        }
+        else if(add_users!=null) {
+            List<Integer> add = value.getSubscribers();
+            add.addAll(add_users);
+            value.setSubscribers(add);
+        }
+        else return "Nothing to edit";
+        gr.save(value);
+        return "Group edited successfully";
     }
     public String delete_group(Integer id) {
         gms.delete_allMessage(id);
