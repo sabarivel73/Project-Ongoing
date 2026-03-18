@@ -1,5 +1,6 @@
 package code.backend.controller;
 
+import code.backend.entity.displayGroupChat;
 import code.backend.entity.group;
 import code.backend.service.groupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,13 @@ public class groupController {
     @GetMapping(ENDPOINT_10) public ResponseEntity<String> find_createdBy(@RequestParam Integer id, @RequestParam Integer current_user_id) {
         return new ResponseEntity<>(gs.find_createdBy(id,current_user_id),HttpStatus.OK);
     }
-    @GetMapping(ENDPOINT_11) public ResponseEntity<List<group>> subscriber_group(@RequestParam Integer subscriber_id,@RequestParam String domain_name) {
+    @GetMapping(ENDPOINT_11) public ResponseEntity<List<displayGroupChat>> subscriber_group(@RequestParam Integer subscriber_id, @RequestParam String domain_name) {
         return new ResponseEntity<>(gs.subscriber_group(subscriber_id, domain_name),HttpStatus.OK);
     }
     @DeleteMapping(ENDPOINT_12) public ResponseEntity<String> leave_group(@RequestParam Integer group_id,@RequestParam Integer subscriber_id) {
         return new ResponseEntity<>(gs.leave_group(group_id, subscriber_id),HttpStatus.OK);
+    }
+    @GetMapping(ENDPOINT_30) public ResponseEntity<group> groupInfo(@RequestParam Integer id) {
+        return new ResponseEntity<>(gs.groupInfo(id),HttpStatus.OK);
     }
 }

@@ -27,4 +27,6 @@ public class message {
     private String attachmentKey;
     @Column(name = "timestamp")
     private LocalDateTime timestamp;
+    @Column(name = "read")
+    private boolean read;
 }

@@ -17,6 +17,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,6 +33,9 @@ public class groupMessageService {
         value.setContent(content);
         value.setDomain_name(domain_name);
         value.setTimestamp(LocalDateTime.now());
+        List<Integer> v = new ArrayList<>();
+        v.add(sender_id);
+        value.setRead(v);
         if(attachment != null && !attachment.isEmpty()) {
             if(attachment.getSize()>50*1024*1024) return "File size limit exceeded";
             String key = UUID.randomUUID() + "_" + attachment.getOriginalFilename();
@@ -90,5 +94,14 @@ public class groupMessageService {
     }
     public void delete_allMessage(Integer group_id) {
          gmr.delete_allMessage(group_id);
+    }
+    public void read(Integer id, Integer userId) {
+        List<groupMessage> value = gmr.read(id, userId);
+        for(groupMessage i : value) {
+            List<Integer> v = i.getRead();
+            v.add(userId);
+            i.setRead(v);
+            gmr.save(i);
+        }
     }
 }

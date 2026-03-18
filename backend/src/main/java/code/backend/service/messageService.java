@@ -31,6 +31,7 @@ public class messageService {
         value.setReceiver_id(receiver_id);
         value.setContent(content);
         value.setTimestamp(LocalDateTime.now());
+        value.setRead(false);
         if(attachment != null && !attachment.isEmpty()) {
             if(attachment.getSize()>50*1024*1024) return "File size limit exceeded";
             String key = UUID.randomUUID() + "_" + attachment.getOriginalFilename();
@@ -91,4 +92,5 @@ public class messageService {
     public List<displayChat> chat(Integer id) {
         return mr.chat(id);
     }
+    public void read(Integer current_user_id,Integer iam_user_id) { mr.read(current_user_id, iam_user_id); };
 }

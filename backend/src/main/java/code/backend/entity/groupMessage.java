@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -29,4 +30,6 @@ public class groupMessage {
     private String attachmentType;
     @Column(name = "timestamp")
     private LocalDateTime timestamp;
+    @Column(name = "read")
+    private List<Integer> read;
 }

@@ -41,4 +41,7 @@ public class groupMessageController {
     @GetMapping(ENDPOINT_10) public ResponseEntity<String> find_sender(@RequestParam Integer id, @RequestParam Integer current_user_id) {
         return new ResponseEntity<>(gms.find_sender(id,current_user_id),HttpStatus.OK);
     }
+    @GetMapping(ENDPOINT_29) public void read(@RequestParam Integer id, @RequestParam Integer userId) {
+        gms.read(id, userId);
+    }
 }

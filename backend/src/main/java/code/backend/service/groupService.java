@@ -1,5 +1,6 @@
 package code.backend.service;
 
+import code.backend.entity.displayGroupChat;
 import code.backend.entity.group;
 import code.backend.repository.groupRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +73,7 @@ public class groupService {
         if(gr.find_createdBy(id, current_user_id)!=null) return "Created by this user";
         return "Not created by this user";
     }
-    public List<group> subscriber_group(Integer iamUser_id,String domain_name) {
+    public List<displayGroupChat> subscriber_group(Integer iamUser_id, String domain_name) {
         return gr.subscriber_group(iamUser_id,domain_name);
     }
     public String leave_group(Integer group_id,Integer subscriber_id) {
@@ -90,5 +91,8 @@ public class groupService {
         value.setSubscribers(values);
         gr.save(value);
         return "Successfully leaved from the group";
+    }
+    public group groupInfo(Integer id) {
+        return gr.findById(id).orElse(null);
     }
 }

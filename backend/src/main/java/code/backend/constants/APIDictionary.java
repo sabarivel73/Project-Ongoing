@@ -30,4 +30,6 @@ public class APIDictionary {
     public static final String ENDPOINT_26 = "/remove_exist";
     public static final String ENDPOINT_27 = "/chat";
     public static final String ENDPOINT_28 = "/check";
+    public static final String ENDPOINT_29 = "/read";
+    public static final String ENDPOINT_30 = "/groupInfo";
 }

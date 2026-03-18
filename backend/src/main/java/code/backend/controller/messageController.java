@@ -45,4 +45,7 @@ public class messageController {
     @GetMapping(ENDPOINT_27) public ResponseEntity<List<displayChat>> chat(@RequestParam Integer id) {
         return new ResponseEntity<>(ms.chat(id),HttpStatus.OK);
     }
+    @GetMapping(ENDPOINT_29) public void read(@RequestParam Integer current_user_id,@RequestParam Integer iam_user_id) {
+        ms.read(current_user_id, iam_user_id);
+    }
 }

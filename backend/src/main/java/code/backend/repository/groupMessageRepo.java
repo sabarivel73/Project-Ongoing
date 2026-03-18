@@ -19,4 +19,6 @@ public interface groupMessageRepo extends JpaRepository<groupMessage,Integer> {
     groupMessage find_sender(@Param("id_value") Integer id, @Param("current_user_id_value") Integer current_user_id);
     @Transactional @Modifying @Query(value = "delete from group_message where group_id = :group_id_value",nativeQuery = true)
     void delete_allMessage(@Param("group_id_value") Integer group_id);
+    @Query(value = "select * from group_message where group_id = :id_value and :userId_value != all(read)",nativeQuery = true)
+    List<groupMessage> read(@Param("id_value") Integer id, @Param("userId_value") Integer userId);
 }
