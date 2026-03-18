@@ -13,4 +13,7 @@ public class WSController {
     @MessageMapping("/notification") public void sendNotification(String iamUserId, Principal principal) {
         simpMessagingTemplate.convertAndSendToUser(iamUserId,"/queue/notifications","New Message");
     }
+    @MessageMapping("/group_notification") public void sendGroupNotification(String groupId, Principal principal) {
+        simpMessagingTemplate.convertAndSendToUser(groupId,"/queue/groupNotification","New Message");
+    }
 }

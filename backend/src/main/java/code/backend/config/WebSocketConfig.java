@@ -25,14 +25,14 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 .setHandshakeHandler(new DefaultHandshakeHandler() {
                     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler handler, Map<String,Object> attributes) {
                         String query = request.getURI().getQuery();
-                        String iamUserId;
-                        if(query != null && query.startsWith("iamUserid=")) {
-                            iamUserId = query;
+                        String Id;
+                        if(query != null && query.startsWith("id=")) {
+                            Id = query;
                         }
                         else {
-                            iamUserId = "Unknown";
+                            Id = "Unknown";
                         }
-                        return () -> iamUserId;
+                        return () -> Id;
                     }
                 })
                 .withSockJS();
