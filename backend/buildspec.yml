@@ -1,8 +1,13 @@
 version: 0.2
+env:
+  secrets-manager:
+    PSQL_USERNAME: officewingenv:PSQL_USERNAME
+    PSQL_PASSWORD: officewingenv:PSQL_PASSWORD
 phases:
   pre_build:
     commands:
       - cd backend
+      - mvn clean install
       - echo now login into AWS ECR
       - REPOSITORY_URI=696263047337.dkr.ecr.ap-south-1.amazonaws.com/officewing
       - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin $REPOSITORY_URI
