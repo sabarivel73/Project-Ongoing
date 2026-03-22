@@ -2,7 +2,6 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - mvn clean package
       - echo now login into AWS ECR
       - REPOSITORY_URI=696263047337.dkr.ecr.ap-south-1.amazonaws.com/officewing
       - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin $REPOSITORY_URI
