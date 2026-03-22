@@ -9,7 +9,7 @@ phases:
       - cd backend
       - mvn clean install
       - echo now login into AWS ECR
-      - REPOSITORY_URI=696263047337.dkr.ecr.ap-south-1.amazonaws.com/officewing
+      - REPOSITORY_URI=repo_ur;
       - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin $REPOSITORY_URI
       - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
   build:
