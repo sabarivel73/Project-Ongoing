@@ -1,15 +1,21 @@
 version: 0.2
 env:
   secrets-manager:
-    PSQL_USERNAME: officewingenv:PSQL_USERNAME
-    PSQL_PASSWORD: officewingenv:PSQL_PASSWORD
+    DB_URL: "officewingenvvalue:DB_URL"
+    PSQL_USERNAME: "officewingenvvalue:PSQL_USERNAME"
+    PSQL_PASSWORD: "officewingenvvalue:PSQL_PASSWORD"
+    S3_ACCESS_KEY: "officewingenvvalue:S3_ACCESS_KEY"
+    S3_SECRET_KEY: "officewingenvvalue:S3_SECRET_KEY"
+    APP_USERNAME: "officewingenvvalue:APP_USERNAME"
+    APP_PASSWORD: "officewingenvvalue:APP_PASSWORD"
+    URI: "officewingenvvalue:URI"
 phases:
   pre_build:
     commands:
       - cd backend
-      - mvn clean install
+      - mvn clean package -DskipTests
       - echo now login into AWS ECR
-      - REPOSITORY_URI=repo_ur;
+      - REPOSITORY_URI=$URI
       - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin $REPOSITORY_URI
       - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
   build:
