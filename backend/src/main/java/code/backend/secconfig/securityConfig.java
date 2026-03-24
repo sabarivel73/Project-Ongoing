@@ -28,7 +28,7 @@ public class securityConfig {
         cf.setAllowedOriginPatterns(List.of("*"));
         cf.setAllowedHeaders(List.of("*"));
         cf.setAllowedMethods(List.of("POST","GET","PUT","DELETE"));
-        cf.setAllowCredentials(true);
+        cf.setAllowCredentials(false);
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
         urlBasedCorsConfigurationSource.registerCorsConfiguration("/**",cf);
         return urlBasedCorsConfigurationSource;
