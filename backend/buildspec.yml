@@ -4,6 +4,7 @@ env:
     DB_URL: "officewingenvvalue:DB_URL"
     PSQL_USERNAME: "officewingenvvalue:PSQL_USERNAME"
     PSQL_PASSWORD: "officewingenvvalue:PSQL_PASSWORD"
+    DB_VALUE: "officewingenvvalue:DB_VALUE"
     APP_USERNAME: "officewingenvvalue:APP_USERNAME"
     APP_PASSWORD: "officewingenvvalue:APP_PASSWORD"
     URI: "officewingenvvalue:URI"
