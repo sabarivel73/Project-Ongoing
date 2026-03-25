@@ -25,10 +25,10 @@ public class securityConfig {
     }
     @Bean public CorsConfigurationSource configurationSource() {
         CorsConfiguration cf = new CorsConfiguration();
-        cf.setAllowedOriginPatterns(List.of("*"));
+        cf.setAllowedOriginPatterns(List.of("https://localhost","http://localhost","capacitor://localhost"));
         cf.setAllowedHeaders(List.of("*"));
         cf.setAllowedMethods(List.of("POST","GET","PUT","DELETE"));
-        cf.setAllowCredentials(false);
+        cf.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
         urlBasedCorsConfigurationSource.registerCorsConfiguration("/**",cf);
         return urlBasedCorsConfigurationSource;
