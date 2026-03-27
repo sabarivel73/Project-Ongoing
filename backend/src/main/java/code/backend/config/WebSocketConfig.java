@@ -21,7 +21,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     }
     public void registerStompEndpoints(StompEndpointRegistry value) {
         value.addEndpoint("/ws")
-                .setAllowedOriginPatterns("https://localhost","http://localhost:4200","capacitor://localhost")
+                .setAllowedOriginPatterns("http://localhost","http://localhost:4200","capacitor://localhost")
                 .setHandshakeHandler(new DefaultHandshakeHandler() {
                     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler handler, Map<String,Object> attributes) {
                         String query = request.getURI().getQuery();
