@@ -92,7 +92,7 @@ public class rootUserService {
         vr.delete_validation();
         rootUser value;
         if(user_name==null) value = rur.login(null,email.toLowerCase());
-        else value = rur.login(user_name,null);
+        else value = rur.login(user_name.toLowerCase(),null);
         if(value==null) return "No User name or email found";
         if(!passwordEncoder.matches(password,value.getPassword())) return "Password was wrong";
         return "User logged in successfully and rootUser ID : "+value.getId()+" rootUser name : "+value.getName();
