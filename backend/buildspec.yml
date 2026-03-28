@@ -4,7 +4,7 @@ env:
     URI: "officewingenvvalue:URI"
 phases:
   pre_build:
-    commands:
+    commands:aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin $REPOSITORY_URI
       - cd backend
       - mvn clean package -DskipTests
       - echo now login into AWS ECR
