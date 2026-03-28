@@ -6,6 +6,7 @@ import code.backend.repository.userQueriesRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class userQueriesService {
         value.setDomain_name(domain_name);
         value.setQuery(query);
         value.setResponse(response);
-        value.setTimestamp(LocalDateTime.now());
+        value.setTimestamp(Instant.now());
         uqr.save(value);
         return "Query sent successfully";
     }

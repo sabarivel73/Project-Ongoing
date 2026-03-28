@@ -1,9 +1,10 @@
 package code.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 
 @Entity
@@ -29,7 +30,8 @@ public class groupMessage {
     @Column(name = "attachmentType")
     private String attachmentType;
     @Column(name = "timestamp")
-    private LocalDateTime timestamp;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Kolkata")
+    private Instant timestamp;
     @Column(name = "read")
     private List<Integer> read;
 }

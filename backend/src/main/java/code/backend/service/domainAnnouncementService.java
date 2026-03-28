@@ -15,6 +15,7 @@ import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -30,7 +31,7 @@ public class domainAnnouncementService {
         value.setRootUser_id(rootUser_id);
         value.setDomain_name(domain_name);
         value.setContent(content);
-        value.setTimestamp(LocalDateTime.now());
+        value.setTimestamp(Instant.now());
         if(attachment != null && !attachment.isEmpty()) {
             if(attachment.getSize()>50*1024*1024) return "File size limit exceeded";
             String key = UUID.randomUUID() + "_" + attachment.getOriginalFilename();

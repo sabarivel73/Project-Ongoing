@@ -5,7 +5,7 @@ export default `<!doctype html>
   <meta charset="utf-8">
   <title>OfficeWing</title>
   <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <link rel="icon" type="image/x-icon" href="assets/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -16,10 +16,10 @@ export default `<!doctype html>
       var global = window;
     }
   </script>
-<style>*{box-sizing:border-box}html,body{margin:0;padding:0;overflow-x:hidden;width:100%;background-color:#000;font-family:Inter,sans-serif;-webkit-tap-highlight-color:transparent}</style><link rel="stylesheet" href="styles-DYHGH45A.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="styles-DYHGH45A.css"></noscript></head>
+<style>*{box-sizing:border-box}html,body{margin:0;padding:0;overflow-x:hidden;width:100%;background-color:#000;font-family:Inter,sans-serif;-webkit-tap-highlight-color:transparent}</style><link rel="stylesheet" href="styles-X2DWCALA.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="styles-X2DWCALA.css"></noscript></head>
 
 <body ngcm="">
   <app-root></app-root>
-<link rel="modulepreload" href="chunk-VMMPWCMR.js"><link rel="modulepreload" href="chunk-TWLTTMEA.js"><script src="main-QNIET27E.js" type="module"></script></body>
+<link rel="modulepreload" href="chunk-B3OJESRW.js"><link rel="modulepreload" href="chunk-ILDZG6WX.js"><link rel="modulepreload" href="chunk-C6Q5SG76.js"><script src="main-GEKOZEK4.js" type="module"></script></body>
 
 </html>`;

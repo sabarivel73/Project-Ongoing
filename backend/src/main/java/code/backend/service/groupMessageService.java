@@ -16,6 +16,7 @@ import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class groupMessageService {
         value.setSenderId(sender_id);
         value.setContent(content);
         value.setDomain_name(domain_name);
-        value.setTimestamp(LocalDateTime.now());
+        value.setTimestamp(Instant.now());
         List<Integer> v = new ArrayList<>();
         v.add(sender_id);
         value.setRead(v);

@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -110,7 +111,7 @@ public class rootUserService {
         Integer value = (int)(Math.random()*9000)+1000;
         validation data = new validation();
         data.setValue(value);
-        data.setTimestamp(LocalDateTime.now());
+        data.setTimestamp(Instant.now());
         Integer id = vr.save(data).getId();
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(sender);
