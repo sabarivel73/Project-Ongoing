@@ -16,10 +16,10 @@ export default `<!doctype html>
       var global = window;
     }
   </script>
-<style>*{box-sizing:border-box}html,body{margin:0;padding:0;overflow-x:hidden;width:100%;background-color:#000;font-family:Inter,sans-serif;-webkit-tap-highlight-color:transparent}</style><link rel="stylesheet" href="styles-X2DWCALA.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="styles-X2DWCALA.css"></noscript></head>
+<style>*{box-sizing:border-box}html,body{margin:0;padding:0;overflow-x:hidden;width:100%;background-color:#000;font-family:Inter,sans-serif;-webkit-tap-highlight-color:transparent}</style><link rel="stylesheet" href="styles-A2RWAEMD.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="styles-A2RWAEMD.css"></noscript></head>
 
 <body ngcm="">
   <app-root></app-root>
-<link rel="modulepreload" href="chunk-B3OJESRW.js"><link rel="modulepreload" href="chunk-ILDZG6WX.js"><link rel="modulepreload" href="chunk-C6Q5SG76.js"><script src="main-GEKOZEK4.js" type="module"></script></body>
+<link rel="modulepreload" href="chunk-CIHM7STN.js"><link rel="modulepreload" href="chunk-ZX6M4A32.js"><link rel="modulepreload" href="chunk-PKXZHBRG.js"><link rel="modulepreload" href="chunk-C6Q5SG76.js"><script src="main-AGTBVGQF.js" type="module"></script></body>
 
 </html>`;
