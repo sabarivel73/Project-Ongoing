@@ -1,0 +1,37 @@
+<div class="otp-wrapper">
+    <button class="back-link" routerLink="/auth-v1">
+        <span class="material-symbols-rounded">arrow_back</span>
+        Back
+    </button>
+
+    <div class="logo-area">
+        <img src="assets/logo.png" alt="OfficeWing Logo" class="logo">
+    </div>
+
+    <div class="content-container">
+        <div *ngIf="errorMessage" class="error-message">
+            {{ errorMessage }}
+        </div>
+
+        <h1 class="page-title">Enter OTP</h1>
+        <p class="subtitle">Enter the OTP sent to your email</p>
+        <p class="email-display" *ngIf="email">{{ email }}</p>
+
+        <form (ngSubmit)="onVerify()" class="otp-form">
+            <div class="otp-inputs">
+                <input type="text" maxlength="1" [(ngModel)]="otp[0]" name="otp0" (input)="onOtpChange($event, 0)"
+                    autofocus>
+                <input type="text" maxlength="1" [(ngModel)]="otp[1]" name="otp1" (input)="onOtpChange($event, 1)">
+                <input type="text" maxlength="1" [(ngModel)]="otp[2]" name="otp2" (input)="onOtpChange($event, 2)">
+                <input type="text" maxlength="1" [(ngModel)]="otp[3]" name="otp3" (input)="onOtpChange($event, 3)">
+            </div>
+
+            <button type="submit" class="verify-btn" [disabled]="otp.join('').length < 4">Verify</button>
+
+            <div class="helper-text">
+                Didn't receive the code?
+                <a [routerLink]="['/reset-init-7a2']" class="resend-link">Resend OTP</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,314 @@
+// Variables
+$bg-color: #000000;
+$input-bg: #121212;
+$input-border: #333333;
+$text-primary: #ffffff;
+$text-secondary: #aaaaaa;
+$accent-color: #ffffff;
+$btn-text: #000000;
+$font-family: 'Inter', sans-serif;
+
+:host {
+    display: block;
+    font-family: $font-family;
+    background-color: $bg-color;
+    min-height: 100vh;
+    color: $text-primary;
+}
+
+.login-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; // Stack from top
+    min-height: 100vh;
+    padding: 4rem 2rem 2rem; // Space for logo at top
+    box-sizing: border-box;
+
+    @media (max-width: 768px) {
+        padding: 3rem 1rem 2rem;
+    }
+}
+
+.logo-area {
+    margin-bottom: 3rem; // Space below logo
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    .logo {
+        height: 60px;
+        width: auto;
+    }
+
+    @media (max-width: 768px) {
+        margin-bottom: 2rem;
+    }
+}
+
+.login-container {
+    display: flex;
+    flex-direction: row;
+    gap: 6rem;
+    max-width: 1000px;
+    width: 100%;
+    justify-content: center;
+    align-items: flex-start;
+
+    @media (max-width: 900px) {
+        // Increased breakpoint for tablet responsiveness
+        flex-direction: column; // Stack vertically: Form first, then features
+        align-items: center;
+        gap: 3rem;
+    }
+}
+
+.left-panel {
+    flex: 1;
+    max-width: 400px;
+    width: 100%;
+}
+
+.right-panel {
+    flex: 1;
+    max-width: 400px;
+    padding-top: 1rem; // Align with title
+
+    @media (max-width: 900px) {
+        padding-top: 0;
+        text-align: center; // Center features on mobile
+    }
+}
+
+.page-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+
+.user-toggle {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: $text-secondary;
+    transition: color 0.2s;
+
+    &:hover {
+        color: $text-primary;
+    }
+
+    input[type="radio"] {
+        appearance: none;
+        margin: 0;
+        width: 18px;
+        height: 18px;
+        border: 2px solid $text-secondary;
+        border-radius: 50%;
+        display: grid;
+        place-content: center;
+
+        &::before {
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            transform: scale(0);
+            transition: 0.2s transform ease-in-out;
+            background-color: $accent-color;
+        }
+
+        &:checked {
+            border-color: $accent-color;
+
+            &::before {
+                transform: scale(1);
+            }
+        }
+    }
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    label {
+        font-size: 0.9rem;
+        color: $text-secondary;
+    }
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .input-icon {
+        position: absolute;
+        left: 12px;
+        color: #666;
+        font-size: 20px;
+        pointer-events: none;
+    }
+
+    input {
+        width: 100%;
+        background-color: $input-bg;
+        border: 1px solid $input-border;
+        border-radius: 6px;
+        padding: 12px 12px 12px 40px; // Left padding for icon
+        color: $text-primary;
+        font-family: inherit;
+        font-size: 0.95rem;
+        outline: none;
+        transition: border-color 0.2s;
+        box-sizing: border-box; // Ensure padding doesn't overflow width
+
+        &:focus {
+            border-color: #666;
+        }
+
+        &::placeholder {
+            color: #444;
+        }
+    }
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -0.5rem;
+
+    .forgot-password {
+        color: $text-secondary;
+        font-size: 0.85rem;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+            color: $text-primary;
+        }
+    }
+}
+
+.submit-btn {
+    background-color: $accent-color;
+    color: $btn-text;
+    border: none;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin-top: 1rem;
+
+    &:hover {
+        opacity: 0.9;
+    }
+
+    &:disabled {
+        background-color: #555555; // Dimmed color
+        color: #888888; // Dimmed text
+        cursor: not-allowed;
+        opacity: 0.7;
+    }
+}
+
+.signup-link {
+    text-align: center;
+    font-size: 0.9rem;
+    color: $text-secondary;
+    margin-top: 1rem;
+
+    a {
+        color: $text-primary;
+        text-decoration: none;
+        font-weight: 500;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.features-title {
+    font-size: 1.2rem; // Slightly smaller than Sign In title
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: $text-primary;
+}
+
+.features-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    @media (max-width: 900px) {
+        align-items: flex-start;
+        // Keep left aligned even if container is centered, or align-items center above handles it.
+        // Actually, let's keep list left aligned but container centered.
+        display: inline-flex;
+        text-align: left;
+    }
+
+    li {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        color: $text-primary;
+        font-size: 1rem;
+        line-height: 1.4;
+        transition: transform 0.3s ease; // Smooth transition
+
+        &:hover {
+            transform: scale(1.05); // Zoom effect
+        }
+
+        .feature-icon {
+            font-size: 24px;
+            color: $accent-color;
+            min-width: 24px; // Prevent icon shrinking
+        }
+
+        .feature-text {
+            color: #ddd;
+        }
+    }
+}
+
+.error-message {
+    color: #ff5252; // Bright red for visibility on dark bg
+    font-size: 0.75rem;
+    margin-top: 4px;
+    margin-left: 4px;
+}
+
+.input-wrapper input.ng-invalid.ng-touched {
+    border-color: #ff5252;
+}
+
+.general-error-message {
+    color: #ff5252;
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+}

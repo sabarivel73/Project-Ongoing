@@ -1,0 +1,497 @@
+@use "sass:color";
+
+$bg-color: #000000;
+$card-bg: rgba(10, 10, 10, 0.85);
+$card-border: rgba(255, 255, 255, 0.06);
+$text-primary: #ffffff;
+$text-secondary: #aaaaaa;
+$accent-color: #ffffff;
+$error-color: #ff5252;
+$success-color: #4caf50;
+
+:host {
+    display: block;
+    min-height: 100vh;
+    background-color: $bg-color;
+    color: $text-primary;
+    font-family: 'Inter', sans-serif;
+}
+
+.edit-iam-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+    box-sizing: border-box;
+    position: relative; // Allow absolute positioning for desktop back-link
+    background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.03), transparent 500px),
+                radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.02), transparent 400px);
+}
+
+.back-link {
+    background: transparent;
+    border: none;
+    color: $text-secondary;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    
+    // Desktop: Original top-left position
+    position: absolute;
+    top: 3rem;
+    left: 4rem;
+
+    @media (max-width: 768px) {
+        // Mobile: New centered position
+        position: static;
+        align-self: center;
+        margin-bottom: 2rem;
+    }
+
+    &:hover {
+        color: white;
+        transform: translateX(-4px);
+    }
+}
+
+.edit-card {
+    width: 100%;
+    max-width: 480px;
+    background: $card-bg;
+    backdrop-filter: blur(24px);
+    padding: 3.5rem;
+    border-radius: 32px;
+    border: 1px solid $card-border;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7);
+    animation: cardAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+
+    @media (max-width: 768px) {
+        padding: 3rem 1.5rem 2rem;
+        border-radius: 24px;
+    }
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+
+    .user-avatar {
+        width: 72px;
+        height: 72px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+
+        span {
+            font-size: 36px;
+            color: #777;
+        }
+    }
+
+    h1 {
+        font-size: 2.4rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(to bottom, #fff, #888);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+        color: $text-secondary;
+        font-size: 1rem;
+
+        .highlight {
+            color: white;
+            font-weight: 600;
+        }
+    }
+}
+
+.edit-form {
+    .input-group {
+        margin-bottom: 2rem;
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: $text-secondary;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+
+            .icon {
+                position: absolute;
+                left: 16px;
+                color: #555;
+                font-size: 22px;
+            }
+
+            input {
+                width: 100%;
+                background: #080808;
+                border: 1px solid #1a1a1a;
+                border-radius: 14px;
+                padding: 16px 16px 16px 52px;
+                color: white;
+                font-family: inherit;
+                font-size: 1rem;
+                outline: none;
+                transition: all 0.3s;
+
+                &:focus {
+                    border-color: rgba(255, 255, 255, 0.15);
+                    background: #0f0f0f;
+                    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.02);
+                }
+            }
+        }
+    }
+
+    .submit-btn {
+        width: 100%;
+        background: white;
+        color: black;
+        border: none;
+        padding: 1.1rem;
+        border-radius: 14px;
+        font-weight: 800;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-bottom: 1.5rem;
+
+        &:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+        }
+
+        &:disabled {
+            background: #222;
+            color: #555;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+    }
+}
+
+.disclaimer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: $error-color;
+    font-size: 0.8rem;
+    margin-top: 0.6rem;
+    padding-left: 0.5rem;
+
+    span {
+        font-size: 16px;
+    }
+}
+
+.action-links-section {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+
+    p {
+        color: $text-secondary;
+        font-size: 0.9rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .trigger-btn {
+        background: transparent;
+        border: none;
+        color: white;
+        font-weight: 600;
+        text-decoration: underline;
+        cursor: pointer;
+        padding: 0;
+        margin-left: 4px;
+        transition: color 0.2s;
+
+        &:hover {
+            color: #ccc;
+        }
+
+        &.danger {
+            color: $error-color;
+
+            &:hover {
+                color: color.adjust($error-color, $lightness: 10%);
+            }
+        }
+    }
+}
+
+// Modal Styles
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-box {
+    background: #0d0d0d;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 28px;
+    padding: 3rem;
+    width: 90%;
+    max-width: 420px;
+    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.9);
+    animation: modalSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &.danger {
+        border-color: rgba($error-color, 0.2);
+    }
+
+    .modal-header {
+        text-align: center;
+        margin-bottom: 2rem;
+
+        .lock-icon {
+            font-size: 48px;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .warning-icon {
+            font-size: 48px;
+            color: #ffb300;
+            margin-bottom: 1rem;
+        }
+
+        .critical-icon {
+            font-size: 48px;
+            color: $error-color;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            color: $text-secondary;
+            font-size: 0.9rem;
+
+            .highlight {
+                color: white;
+                font-weight: 600;
+            }
+        }
+    }
+
+    .input-group {
+        margin-bottom: 1.5rem;
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+
+            .icon {
+                position: absolute;
+                left: 16px;
+                color: #555;
+                font-size: 22px;
+                z-index: 10;
+            }
+
+            input {
+                width: 100%;
+                background: #080808;
+                border: 1px solid #1a1a1a;
+                border-radius: 14px;
+                padding: 16px 16px 16px 52px;
+                color: white;
+                font-family: inherit;
+                font-size: 1rem;
+                outline: none;
+                transition: all 0.3s;
+
+                &:focus {
+                    border-color: rgba(255, 255, 255, 0.15);
+                    background: #0f0f0f;
+                    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.02);
+                }
+            }
+        }
+    }
+
+    .requirements-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 1.2rem;
+        border-radius: 16px;
+        margin: 1.5rem 0 2rem;
+
+        .req-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            color: #444;
+            transition: all 0.3s;
+
+            span {
+                font-size: 16px;
+            }
+
+            &.valid {
+                color: white;
+
+                span {
+                    color: $success-color;
+                }
+            }
+        }
+    }
+
+    .modal-actions {
+        display: flex;
+        gap: 1rem;
+
+        .modal-btn {
+            flex: 1;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+
+            &.secondary {
+                background: #1a1a1a;
+                color: white;
+
+                &:hover {
+                    background: #252525;
+                }
+            }
+
+            &.primary {
+                background: white;
+                color: black;
+
+                &:disabled {
+                    background: #222;
+                    color: #555;
+                    cursor: not-allowed;
+                }
+
+                &:not(:disabled):hover {
+                    transform: translateY(-2px);
+                }
+            }
+
+            &.delete {
+                background: $error-color;
+                color: white;
+
+                &:disabled {
+                    background: #222;
+                    color: #555;
+                    cursor: not-allowed;
+                }
+
+                &:not(:disabled):hover {
+                    background: color.adjust($error-color, $lightness: 5%);
+                    transform: translateY(-2px);
+                    box-shadow: 0 5px 15px rgba($error-color, 0.3);
+                }
+            }
+        }
+    }
+}
+
+.status-messages {
+    margin-bottom: 2rem;
+
+    .message {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 1rem;
+        border-radius: 12px;
+        font-size: 0.9rem;
+        justify-content: center;
+
+        &.error {
+            background: rgba($error-color, 0.1);
+            color: $error-color;
+        }
+
+        &.success {
+            background: rgba($success-color, 0.1);
+            color: $success-color;
+        }
+    }
+
+    &.modal-feedback {
+        margin-bottom: 1.5rem;
+
+        .message {
+            padding: 0.8rem;
+            font-size: 0.85rem;
+        }
+    }
+}
+
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes modalSlide {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}

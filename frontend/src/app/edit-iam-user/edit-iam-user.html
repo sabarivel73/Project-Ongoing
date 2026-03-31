@@ -1,0 +1,171 @@
+<div class="edit-iam-wrapper">
+    <button class="back-link" (click)="goBack()">
+        <span class="material-symbols-rounded">arrow_back</span>
+        Back
+    </button>
+
+    <div class="edit-card">
+        <header class="header">
+            <div class="user-avatar">
+                <span class="material-symbols-rounded">manage_accounts</span>
+            </div>
+            <h1>Edit IAM User</h1>
+            <p class="subtitle">Modifying account: <span class="highlight">{{ user?.name }}</span></p>
+        </header>
+
+        <form class="edit-form" (ngSubmit)="onUpdateRole()">
+            <div class="input-group">
+                <label for="role">Access Role</label>
+                <div class="input-wrapper">
+                    <span class="material-symbols-rounded icon">shield_person</span>
+                    <input type="text" id="role" name="role" [(ngModel)]="role" (input)="validateRole()"
+                        placeholder="Enter role (e.g. SDE-1)" required>
+                </div>
+                <div class="disclaimer" *ngIf="roleDisclaimer">
+                    <span class="material-symbols-rounded">warning</span>
+                    {{ roleDisclaimer }}
+                </div>
+            </div>
+
+            <div class="status-messages">
+                <div class="message error" *ngIf="errorMessage">
+                    <span class="material-symbols-rounded">error</span>
+                    {{ errorMessage }}
+                </div>
+                <div class="message success" *ngIf="successMessage">
+                    <span class="material-symbols-rounded">check_circle</span>
+                    {{ successMessage }}
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" [disabled]="!isRoleModified()">
+                Edit IAM User
+            </button>
+        </form>
+
+        <div class="action-links-section">
+            <p>If you want to change password for this IAM user
+                <button type="button" class="trigger-btn" (click)="togglePasswordModal()">click here</button>
+            </p>
+            <p class="delete-link-area">
+                If you want to delete this IAM user
+                <button type="button" class="trigger-btn danger" (click)="toggleDeleteModal1()">click here</button>
+            </p>
+        </div>
+    </div>
+
+    <!-- Password Change Modal -->
+    <div class="modal-overlay" *ngIf="showPasswordModal" (click)="togglePasswordModal()">
+        <div class="modal-box" (click)="$event.stopPropagation()">
+            <header class="modal-header">
+                <span class="material-symbols-rounded lock-icon">lock_reset</span>
+                <h2>Reset Password</h2>
+                <p>Enter a new secure password for {{ user?.name }}</p>
+            </header>
+
+            <div class="input-group">
+                <div class="input-wrapper">
+                    <span class="material-symbols-rounded icon">lock</span>
+                    <input type="password" [(ngModel)]="newPassword" (input)="checkPasswordRequirements()"
+                        placeholder="Enter new password">
+                </div>
+            </div>
+
+            <div class="requirements-grid">
+                <div class="req-item" [class.valid]="passwordRequirements.length">
+                    <span class="material-symbols-rounded">{{ passwordRequirements.length ? 'check_box' :
+                        'check_box_outline_blank' }}</span>
+                    8-16 chars
+                </div>
+                <div class="req-item" [class.valid]="passwordRequirements.upper">
+                    <span class="material-symbols-rounded">{{ passwordRequirements.upper ? 'check_box' :
+                        'check_box_outline_blank' }}</span>
+                    Uppercase
+                </div>
+                <div class="req-item" [class.valid]="passwordRequirements.lower">
+                    <span class="material-symbols-rounded">{{ passwordRequirements.lower ? 'check_box' :
+                        'check_box_outline_blank' }}</span>
+                    Lowercase
+                </div>
+                <div class="req-item" [class.valid]="passwordRequirements.number">
+                    <span class="material-symbols-rounded">{{ passwordRequirements.number ? 'check_box' :
+                        'check_box_outline_blank' }}</span>
+                    Number
+                </div>
+                <div class="req-item" [class.valid]="passwordRequirements.symbol">
+                    <span class="material-symbols-rounded">{{ passwordRequirements.symbol ? 'check_box' :
+                        'check_box_outline_blank' }}</span>
+                    Symbol
+                </div>
+            </div>
+
+            <div class="status-messages modal-feedback" *ngIf="errorMessage || successMessage">
+                <div class="message error" *ngIf="errorMessage">
+                    <span class="material-symbols-rounded">error</span>
+                    {{ errorMessage }}
+                </div>
+                <div class="message success" *ngIf="successMessage">
+                    <span class="material-symbols-rounded">check_circle</span>
+                    {{ successMessage }}
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="modal-btn secondary" (click)="togglePasswordModal()">Cancel</button>
+                <button class="modal-btn primary" [disabled]="!isPasswordValid()" (click)="onUpdatePassword()">
+                    Change Password
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Delete Modal 1: Confirmation -->
+    <div class="modal-overlay" *ngIf="showDeleteModal1" (click)="toggleDeleteModal1()">
+        <div class="modal-box" (click)="$event.stopPropagation()">
+            <header class="modal-header">
+                <span class="material-symbols-rounded warning-icon">warning</span>
+                <h2>Delete IAM User?</h2>
+                <p>Are you sure to delete <span class="highlight">{{ user?.name }}</span>?</p>
+            </header>
+            <div class="modal-actions">
+                <button class="modal-btn secondary" (click)="toggleDeleteModal1()">No</button>
+                <button class="modal-btn primary" (click)="onProceedToDelete()">Yes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal 2: Final Confirmation with text input -->
+    <div class="modal-overlay" *ngIf="showDeleteModal2" (click)="toggleDeleteModal2()">
+        <div class="modal-box danger" (click)="$event.stopPropagation()">
+            <header class="modal-header">
+                <span class="material-symbols-rounded critical-icon">dangerous</span>
+                <h2>Final Confirmation</h2>
+                <p>If you want to delete this IAM user enter <strong>delete</strong> in this input</p>
+            </header>
+
+            <div class="input-group">
+                <div class="input-wrapper">
+                    <span class="material-symbols-rounded icon">delete_forever</span>
+                    <input type="text" name="delConfirm" [(ngModel)]="deleteConfirmationInput"
+                        placeholder="Type 'delete' to confirm">
+                </div>
+            </div>
+
+            <div class="status-messages modal-feedback" *ngIf="errorMessage || successMessage">
+                <div class="message error" *ngIf="errorMessage">
+                    <span class="material-symbols-rounded">error</span>
+                    {{ errorMessage }}
+                </div>
+                <div class="message success" *ngIf="successMessage">
+                    <span class="material-symbols-rounded">check_circle</span>
+                    {{ successMessage }}
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="modal-btn secondary" (click)="toggleDeleteModal2()">No</button>
+                <button class="modal-btn delete" [disabled]="deleteConfirmationInput.toLowerCase() !== 'delete'"
+                    (click)="onFinalDeleteUser()">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>

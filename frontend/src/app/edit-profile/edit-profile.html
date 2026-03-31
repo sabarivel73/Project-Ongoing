@@ -1,0 +1,53 @@
+<div class="edit-profile-wrapper">
+    <button class="back-link" (click)="goBack()">
+        <span class="material-symbols-rounded">arrow_back</span>
+        Back
+    </button>
+
+    <div class="edit-profile-card">
+        <header class="header">
+            <h1>Edit Profile</h1>
+            <p class="subtitle">Update your account information</p>
+        </header>
+
+        <form (ngSubmit)="onUpdate()" #editForm="ngForm" class="edit-form">
+            <div class="input-group">
+                <label for="name">Full Name</label>
+                <div class="input-wrapper">
+                    <span class="material-symbols-rounded icon">person</span>
+                    <input type="text" id="name" name="name" [(ngModel)]="name" (input)="validateName()"
+                        [class.input-error]="nameDisclaimer" placeholder="Enter your name" required autocomplete="name">
+                </div>
+                <div class="disclaimer" *ngIf="nameDisclaimer">{{ nameDisclaimer }}</div>
+            </div>
+
+            <div class="input-group">
+                <label for="email">Email Address</label>
+                <div class="input-wrapper">
+                    <span class="material-symbols-rounded icon">mail</span>
+                    <input type="email" id="email" name="email" [(ngModel)]="email" (input)="validateEmail()"
+                        [class.input-error]="emailDisclaimer" placeholder="Enter your email" required
+                        autocomplete="email">
+                </div>
+                <div class="disclaimer" *ngIf="emailDisclaimer">{{ emailDisclaimer }}</div>
+                <div class="password-link-area">
+                    <a routerLink="/secure-upd-v4k" class="password-link">Want to change password? Click here</a>
+                </div>
+            </div>
+
+            <div class="message error" *ngIf="errorMessage">
+                <span class="material-symbols-rounded">error</span>
+                {{ errorMessage }}
+            </div>
+
+            <div class="message success" *ngIf="successMessage">
+                <span class="material-symbols-rounded">check_circle</span>
+                {{ successMessage }}
+            </div>
+
+            <button type="submit" class="submit-btn" [disabled]="!isFormValid()">
+                Edit Change
+            </button>
+        </form>
+    </div>
+</div>

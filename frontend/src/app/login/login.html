@@ -1,0 +1,140 @@
+<div class="login-wrapper">
+    <div class="logo-area">
+        <img src="assets/logo.png" alt="OfficeWing Logo" class="logo">
+    </div>
+
+    <div class="login-container">
+        <div class="left-panel">
+            <h1 class="page-title">Sign In</h1>
+
+            <div class="user-toggle">
+                <label class="radio-label">
+                    <input type="radio" name="userType" [value]="'root'" [(ngModel)]="userType"
+                        (change)="toggleUserType('root')">
+                    <span class="radio-custom"></span>
+                    Root User
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="userType" [value]="'iam'" [(ngModel)]="userType"
+                        (change)="toggleUserType('iam')">
+                    <span class="radio-custom"></span>
+                    IAM User
+                </label>
+            </div>
+
+            <form (ngSubmit)="onLogin()" class="login-form" #loginForm="ngForm">
+                <!-- Root User Form -->
+                <div *ngIf="userType === 'root'" class="form-section">
+                    <div class="form-group">
+                        <label>Username or Gmail</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-rounded input-icon">person</span>
+                            <input type="text" [(ngModel)]="rootCredentials.username" name="username"
+                                placeholder="Username or email@gmail.com" required
+                                pattern="^[a-zA-Z]+$|^[a-zA-Z0-9._%+-]+@gmail\.com$" #rootUsernameInput="ngModel">
+                        </div>
+                        <div *ngIf="rootUsernameInput.invalid && (rootUsernameInput.dirty || rootUsernameInput.touched)"
+                            class="error-message">
+                            <span *ngIf="rootUsernameInput.errors?.['required']">This field is required.</span>
+                            <span *ngIf="rootUsernameInput.errors?.['pattern']">Please enter a valid username (letters
+                                only) or @gmail.com email.</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-rounded input-icon">lock</span>
+                            <input type="password" [(ngModel)]="rootCredentials.password" name="password"
+                                placeholder="Password" required #rootPasswordInput="ngModel">
+                        </div>
+                        <div *ngIf="rootPasswordInput.invalid && (rootPasswordInput.dirty || rootPasswordInput.touched)"
+                            class="error-message">
+                            Password is required.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- IAM User Form -->
+                <div *ngIf="userType === 'iam'" class="form-section">
+                    <div class="form-group">
+                        <label>Domain Name</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-rounded input-icon">domain</span> <!-- using domain icon -->
+                            <input type="text" [(ngModel)]="iamCredentials.domain" name="domain" placeholder="Domain"
+                                required pattern="^[a-zA-Z]+$" #domainInput="ngModel">
+                        </div>
+                        <div *ngIf="domainInput.invalid && (domainInput.dirty || domainInput.touched)"
+                            class="error-message">
+                            <span *ngIf="domainInput.errors?.['required']">Domain is required.</span>
+                            <span *ngIf="domainInput.errors?.['pattern']">Only letters are allowed.</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>User Name</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-rounded input-icon">person</span>
+                            <input type="text" [(ngModel)]="iamCredentials.username" name="username"
+                                placeholder="User Name" required pattern="^[a-zA-Z]+$" #usernameInput="ngModel">
+                        </div>
+                        <div *ngIf="usernameInput.invalid && (usernameInput.dirty || usernameInput.touched)"
+                            class="error-message">
+                            <span *ngIf="usernameInput.errors?.['required']">User Name is required.</span>
+                            <span *ngIf="usernameInput.errors?.['pattern']">Only letters are allowed.</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-rounded input-icon">lock</span>
+                            <input type="password" [(ngModel)]="iamCredentials.password" name="password"
+                                placeholder="Password" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions" *ngIf="userType === 'root'">
+                    <a [routerLink]="['/reset-init-7a2']" class="forgot-password">Forgot
+                        password?</a>
+                </div>
+
+                <div *ngIf="loginError" class="general-error-message" style="margin-bottom: 20px;">
+                    {{ loginError }}
+                </div>
+
+                <button type="submit" class="submit-btn" [style.marginTop]="userType === 'root' ? '0' : '20px'"
+                    [disabled]="!loginForm.valid">Sign
+                    In</button>
+
+                <div class="signup-link" *ngIf="userType === 'root'">
+                    Don't have an account? <a [routerLink]="['/reg-new-8d2']">Sign up</a>
+                </div>
+            </form>
+        </div>
+
+        <div class="right-panel">
+            <h2 class="features-title">Quick look</h2>
+            <ul class="features-list">
+                <li>
+                    <span class="material-symbols-rounded feature-icon">group</span>
+                    <span class="feature-text">Manage and oversee your teams</span>
+                </li>
+                <li>
+                    <span class="material-symbols-rounded feature-icon">check_circle</span>
+                    <span class="feature-text">Enhance collaboration and productivity</span>
+                </li>
+                <li>
+                    <span class="material-symbols-rounded feature-icon">security</span>
+                    <!-- shield was requested but security is standard material icon name mostly -->
+                    <span class="feature-text">Secure IAM user management</span>
+                </li>
+                <li>
+                    <span class="material-symbols-rounded feature-icon">tune</span> <!-- sliders icon -->
+                    <span class="feature-text">Customizable access controls</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

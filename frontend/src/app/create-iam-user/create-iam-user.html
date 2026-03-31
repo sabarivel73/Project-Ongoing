@@ -1,0 +1,112 @@
+<div class="create-iam-wrapper">
+    <button class="back-link" (click)="goBack()">
+        <span class="material-symbols-rounded">arrow_back</span>
+        Back
+    </button>
+
+    <div class="create-iam-card">
+        <div class="logo-section">
+            <span class="material-symbols-rounded logo-icon">group_add</span>
+        </div>
+
+        <header class="header">
+            <h1>Create IAM User</h1>
+            <p class="subtitle">Assign a new member to <span class="domain-highlight">{{ domainName }}</span></p>
+        </header>
+
+        <form (ngSubmit)="onCreateIamUser()" class="iam-form">
+            <div class="form-group">
+                <label>Full Name</label>
+                <div class="input-wrapper">
+                    <span class="material-symbols-rounded input-icon">person</span>
+                    <input type="text" [(ngModel)]="name" name="name" placeholder="Enter user's name"
+                        (input)="validateName()" required>
+                </div>
+                <div *ngIf="nameDisclaimer" class="disclaimer">
+                    {{ nameDisclaimer }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>New Password</label>
+                <div class="input-wrapper">
+                    <span class="material-symbols-rounded input-icon">lock</span>
+                    <input type="password" [(ngModel)]="password" name="password" placeholder="Enter new password"
+                        (input)="validatePassword()" required>
+                </div>
+
+                <div class="password-requirements-grid" *ngIf="password">
+                    <div class="req-item" [class.met]="requirements.length">
+                        <span class="material-symbols-rounded req-check">
+                            {{ requirements.length ? 'check_box' : 'check_box_outline_blank' }}
+                        </span>
+                        8-16 characters
+                    </div>
+                    <div class="req-item" [class.met]="requirements.upper">
+                        <span class="material-symbols-rounded req-check">
+                            {{ requirements.upper ? 'check_box' : 'check_box_outline_blank' }}
+                        </span>
+                        One uppercase
+                    </div>
+                    <div class="req-item" [class.met]="requirements.lower">
+                        <span class="material-symbols-rounded req-check">
+                            {{ requirements.lower ? 'check_box' : 'check_box_outline_blank' }}
+                        </span>
+                        One lowercase
+                    </div>
+                    <div class="req-item" [class.met]="requirements.number">
+                        <span class="material-symbols-rounded req-check">
+                            {{ requirements.number ? 'check_box' : 'check_box_outline_blank' }}
+                        </span>
+                        One number
+                    </div>
+                    <div class="req-item" [class.met]="requirements.symbol">
+                        <span class="material-symbols-rounded req-check">
+                            {{ requirements.symbol ? 'check_box' : 'check_box_outline_blank' }}
+                        </span>
+                        One symbol
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Confirm New Password</label>
+                <div class="input-wrapper">
+                    <span class="material-symbols-rounded input-icon">verified_user</span>
+                    <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword"
+                        placeholder="Confirm new password" required>
+                </div>
+                <div class="disclaimer" *ngIf="confirmPassword && password !== confirmPassword">
+                    Passwords do not match
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Access Role</label>
+                <div class="input-wrapper">
+                    <span class="material-symbols-rounded input-icon">shield_person</span>
+                    <input type="text" [(ngModel)]="role" name="role" placeholder="Enter role (e.g. SDE-1)"
+                        (input)="validateRole()" required>
+                </div>
+                <div *ngIf="roleDisclaimer" class="disclaimer">
+                    {{ roleDisclaimer }}
+                </div>
+            </div>
+
+            <div class="status-messages">
+                <div class="message error" *ngIf="errorMessage">
+                    <span class="material-symbols-rounded">error</span>
+                    {{ errorMessage }}
+                </div>
+                <div class="message success" *ngIf="successMessage">
+                    <span class="material-symbols-rounded">check_circle</span>
+                    {{ successMessage }}
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" [disabled]="!isFormValid()">
+                Create IAM User
+            </button>
+        </form>
+    </div>
+</div>

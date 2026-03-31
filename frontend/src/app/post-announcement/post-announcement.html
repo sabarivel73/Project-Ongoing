@@ -1,0 +1,119 @@
+<div class="post-announcement-wrapper">
+    <button class="back-link" (click)="goBack()">
+        <span class="material-symbols-rounded">arrow_back</span>
+        Back
+    </button>
+
+    <main class="main-content">
+        <header class="page-header">
+            <div class="announcement-badge">
+                <span class="material-symbols-rounded">campaign</span>
+                <span class="badge-text">Announcements</span>
+            </div>
+            <h1 class="welcome-text">Broadcast to <span class="domain-name">{{ domainName() }}</span></h1>
+            <p class="subtitle">View and manage all domain-wide announcements</p>
+        </header>
+
+        <div class="status-messages">
+            <div class="message error" *ngIf="errorMessage">
+                <span class="material-symbols-rounded">error</span>
+                {{ errorMessage }}
+            </div>
+        </div>
+
+        <!-- Announcements List -->
+        <div class="announcements-container">
+            <div class="list-header">
+                <h2>Posted Announcements</h2>
+                <div class="header-right">
+                    <button class="post-new-btn" (click)="onCreateNew()">
+                        <span class="material-symbols-rounded">add</span>
+                        Post Announcement
+                    </button>
+                    <span class="count">{{ announcements().length }} Total</span>
+                </div>
+            </div>
+
+            <div class="announcements-grid" *ngIf="announcements().length > 0; else noAnnouncements">
+                <div class="announcement-card" *ngFor="let ann of announcements()" (click)="onViewDetails(ann.id)">
+                    <div class="card-content">
+                        <div class="ann-header">
+                            <span class="material-symbols-rounded icon announcement-icon">
+                                {{ ann.content ? 'chat_bubble' : 'description' }}
+                            </span>
+                            <div class="header-text">
+                                <h3 class="ann-title">{{ getHeader(ann) }}</h3>
+                                <p class="timestamp">{{ formatTimestamp(ann.timestamp) }}</p>
+                            </div>
+                            <button class="edit-btn" (click)="$event.stopPropagation(); onEdit(ann)">
+                                <span class="material-symbols-rounded">edit_square</span>
+                            </button>
+                        </div>
+                        <div class="ann-footer">
+                            <span class="view-label">View Details</span>
+                            <span class="material-symbols-rounded arrow">arrow_forward</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <ng-template #noAnnouncements>
+                <div class="empty-state">
+                    <div class="empty-icon-box">
+                        <span class="material-symbols-rounded">notifications_off</span>
+                    </div>
+                    <h3>No announcements yet</h3>
+                    <p>There are no announcements posted for this domain.</p>
+                </div>
+            </ng-template>
+        </div>
+    </main>
+
+    <!-- Details Modal -->
+    <div class="modal-overlay" *ngIf="showDetailsModal()" (click)="closeModal()">
+        <div class="modal-box" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+                <div class="header-top">
+                    <span class="material-symbols-rounded modal-icon">info</span>
+                    <h2>Announcement Details</h2>
+                    <button class="close-btn" (click)="closeModal()">
+                        <span class="material-symbols-rounded">close</span>
+                    </button>
+                </div>
+                <div class="modal-timestamp">
+                    <span class="material-symbols-rounded">calendar_today</span>
+                    {{ formatTimestamp(selectedAnn()?.timestamp) }}
+                </div>
+            </div>
+
+            <div class="modal-content-area">
+                <div class="content-text" *ngIf="selectedAnn()?.content">
+                    <p>{{ selectedAnn()?.content }}</p>
+                </div>
+
+                <div class="attachment-section" *ngIf="selectedAnn()?.attachmentType">
+                    <div class="attachment-card">
+                        <div class="file-icon">
+                            <span class="material-symbols-rounded">insert_drive_file</span>
+                        </div>
+                        <div class="file-info">
+                            <span class="file-name">{{ selectedAnn()?.attachmentType }}</span>
+                            <span class="file-label">Attachment File</span>
+                        </div>
+                        <button class="download-btn" (click)="onDownload(selectedAnn()?.attachmentKey)"
+                            [disabled]="isDownloading(selectedAnn()?.attachmentKey)">
+                            <span class="material-symbols-rounded"
+                                *ngIf="!isDownloading(selectedAnn()?.attachmentKey)">{{ isNative ? 'share' : 'download' }}</span>
+                            <span class="material-symbols-rounded rotating"
+                                *ngIf="isDownloading(selectedAnn()?.attachmentKey)">sync</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="modal-btn secondary" (click)="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+<div class="create-announcement-wrapper">
+    <button class="back-link" (click)="goBack()">
+        <span class="material-symbols-rounded">arrow_back</span>
+        Back
+    </button>
+
+    <main class="main-content">
+        <header class="page-header">
+            <div class="badge">
+                <span class="material-symbols-rounded">campaign</span>
+                <span class="badge-text">New Broadcast</span>
+            </div>
+            <h1 class="welcome-text">Post Announcement</h1>
+            <p class="subtitle">Broadcast updates to <strong>{{ domainName() }}</strong></p>
+        </header>
+
+        <div class="form-container">
+            <div class="input-card">
+                <div class="input-section">
+                    <label>Announcement Content</label>
+                    <div class="textarea-wrapper">
+                        <textarea [(ngModel)]="content" placeholder="Type your announcement here..."
+                            rows="6"></textarea>
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <label>Attachment (Optional)</label>
+                    <div class="upload-area" *ngIf="!selectedFile">
+                        <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;">
+                        <div class="drop-zone" (click)="fileInput.click()">
+                            <span class="material-symbols-rounded upload-icon">cloud_upload</span>
+                            <div class="upload-text">
+                                <p>Click to upload document or image</p>
+                                <span>Max 1 file enabled</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="file-preview" *ngIf="selectedFile">
+                        <div class="file-info">
+                            <span class="material-symbols-rounded">insert_drive_file</span>
+                            <span class="file-name">{{ fileName() }}</span>
+                        </div>
+                        <button class="remove-btn" (click)="removeFile()">
+                            <span class="material-symbols-rounded">close</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-footer">
+                <div class="status-messages">
+                    <div class="message error" *ngIf="errorMessage">
+                        <span class="material-symbols-rounded">error</span>
+                        {{ errorMessage }}
+                    </div>
+                    <div class="message success" *ngIf="successMessage">
+                        <span class="material-symbols-rounded">check_circle</span>
+                        {{ successMessage }}
+                    </div>
+                </div>
+
+                <button class="post-btn" [disabled]="!isFormValid()" (click)="onPost()">
+                    <span class="material-symbols-rounded">send</span>
+                    Post Announcement
+                </button>
+                <p class="validation-note" *ngIf="!isFormValid()">* Either content or file must be provided</p>
+            </div>
+        </div>
+    </main>
+</div>

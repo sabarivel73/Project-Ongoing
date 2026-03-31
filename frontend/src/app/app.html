@@ -1,0 +1,17 @@
+<div class="app-wrapper">
+    <div class="status-bar-bg"></div>
+    <main class="main-content" [@routeAnimations]="prepareRoute(outlet)">
+        <router-outlet #outlet="outlet"></router-outlet>
+    </main>
+
+    <footer class="app-footer">
+        Copyright@OfficeWing 2026
+    </footer>
+</div>
+
+<app-loader></app-loader>
+
+<div class="back-disclaimer" *ngIf="showBackDisclaimer()">
+    <span class="material-symbols-rounded">info</span>
+    Please use the back button present in this page
+</div>

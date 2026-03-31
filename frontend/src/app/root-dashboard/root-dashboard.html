@@ -1,0 +1,93 @@
+<div class="dashboard-wrapper">
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-area">
+                <img src="assets/logo.png" alt="OfficeWing Logo" class="logo">
+            </div>
+
+            <div class="nav-actions">
+                <button class="menu-toggle" (click)="toggleMenu()" [class.active]="isMenuOpen()">
+                    <span class="material-symbols-rounded">menu</span>
+                </button>
+
+                <div class="dropdown-menu" [class.show]="isMenuOpen()">
+                    <button (click)="onEditProfile()" class="dropdown-item">
+                        <span class="material-symbols-rounded">edit</span>
+                        Edit Profile
+                    </button>
+                    <button (click)="onLogout()" class="dropdown-item logout">
+                        <span class="material-symbols-rounded">logout</span>
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <header class="page-header">
+            <div class="user-greeting">
+                <span class="greeting-icon">👋</span>
+                <span class="greeting-text">Welcome, <span class="username">{{ rootUserName() }}</span></span>
+            </div>
+            <h1 class="welcome-text">Root Dashboard</h1>
+            <p class="subtitle">Centralized infrastructure management</p>
+        </header>
+
+        <!-- Dashboard Hub: All in one box -->
+        <div class="dashboard-hub">
+            <div class="hub-section stats">
+                <div class="hub-card stat-item">
+                    <div class="icon-wrapper domains">
+                        <span class="material-symbols-rounded">domain</span>
+                    </div>
+                    <div class="info">
+                        <span class="value">{{ dashboardData().domains }}</span>
+                        <span class="label">Total Domains</span>
+                    </div>
+                </div>
+
+                <div class="hub-card stat-item">
+                    <div class="icon-wrapper users">
+                        <span class="material-symbols-rounded">group</span>
+                    </div>
+                    <div class="info">
+                        <span class="value">{{ dashboardData().iamUsers }}</span>
+                        <span class="label">IAM Users</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hub-divider"></div>
+
+            <div class="hub-section actions">
+                <button class="hub-card action-item" (click)="onCreateDomain()">
+                    <div class="card-left">
+                        <div class="icon-box">
+                            <span class="material-symbols-rounded">add_business</span>
+                        </div>
+                        <div class="text-box">
+                            <h3>Create Domain</h3>
+                            <p>Initialize environment</p>
+                        </div>
+                    </div>
+                    <span class="material-symbols-rounded arrow">arrow_forward</span>
+                </button>
+
+                <button class="hub-card action-item" (click)="onViewAllDomains()">
+                    <div class="card-left">
+                        <div class="icon-box">
+                            <span class="material-symbols-rounded">list_alt</span>
+                        </div>
+                        <div class="text-box">
+                            <h3>View All Domains</h3>
+                            <p>Manage infrastructure</p>
+                        </div>
+                    </div>
+                    <span class="material-symbols-rounded arrow">arrow_forward</span>
+                </button>
+            </div>
+        </div>
+    </main>
+</div>

@@ -1,0 +1,70 @@
+<div class="domain-list-wrapper">
+    <button class="back-link" (click)="goBack()">
+        <span class="material-symbols-rounded">arrow_back</span>
+        Back
+    </button>
+
+    <div class="domain-list-container">
+        <header class="header">
+            <h1 class="page-title">Domains for {{ rootUserName }}</h1>
+            <p class="subtitle">Manage your infrastructure environments</p>
+
+            <div class="search-bar">
+                <div class="search-input-wrapper">
+                    <span class="material-symbols-rounded search-icon">search</span>
+                    <input type="text" [(ngModel)]="searchQuery" (keyup.enter)="onSearch()"
+                        placeholder="Search domains...">
+                </div>
+                <button class="search-btn" (click)="onSearch()" [disabled]="!searchQuery.trim()">
+                    Search
+                </button>
+            </div>
+        </header>
+
+        <div class="domains-grid" *ngIf="domains().length > 0; else emptyState">
+            <div class="domain-card" *ngFor="let domain of domains()">
+                <div class="card-content">
+                    <div class="domain-info">
+                        <div class="icon-box">
+                            <span class="material-symbols-rounded">domain</span>
+                        </div>
+                        <div class="text-details">
+                            <h3>{{ domain.name }}</h3>
+                        </div>
+                    </div>
+
+                    <div class="actions-area">
+                        <div class="iam-badge">
+                            <span class="material-symbols-rounded">group</span>
+                            <span class="count-value">{{ domain.iamCount }}</span>
+                            <span class="label">Users</span>
+                        </div>
+                        <button class="view-btn" (click)="onViewDomain(domain)">
+                            <span>View</span>
+                            <span class="material-symbols-rounded">chevron_right</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ng-template #emptyState>
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <span class="material-symbols-rounded">domain_disabled</span>
+                </div>
+                <h2>No domains are found</h2>
+                <p>Start by creating your first domain environment.</p>
+                <button class="create-btn" routerLink="/new-domain-v8x">
+                    <span class="material-symbols-rounded">add</span>
+                    Create Domain
+                </button>
+            </div>
+        </ng-template>
+
+        <div class="message error" *ngIf="errorMessage">
+            <span class="material-symbols-rounded">error</span>
+            {{ errorMessage }}
+        </div>
+    </div>
+</div>

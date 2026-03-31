@@ -1,0 +1,40 @@
+<div class="create-domain-wrapper">
+    <button class="back-link" (click)="goBack()">
+        <span class="material-symbols-rounded">arrow_back</span>
+        Back
+    </button>
+
+    <div class="create-domain-card">
+        <header class="header">
+            <h1>Create Domain</h1>
+            <p class="subtitle">Initialize your new environment</p>
+        </header>
+
+        <form (ngSubmit)="onCreateDomain()" #domainForm="ngForm" class="domain-form">
+            <div class="input-group">
+                <label for="domainName">Domain Name</label>
+                <div class="input-wrapper">
+                    <span class="material-symbols-rounded icon">domain</span>
+                    <input type="text" id="domainName" name="domainName" [(ngModel)]="domainName"
+                        (input)="validateName()" [class.input-error]="nameDisclaimer" placeholder="Enter domain name"
+                        required>
+                </div>
+                <div class="disclaimer" *ngIf="nameDisclaimer">{{ nameDisclaimer }}</div>
+            </div>
+
+            <div class="message error" *ngIf="errorMessage">
+                <span class="material-symbols-rounded">error</span>
+                {{ errorMessage }}
+            </div>
+
+            <div class="message success" *ngIf="successMessage">
+                <span class="material-symbols-rounded">check_circle</span>
+                {{ successMessage }}
+            </div>
+
+            <button type="submit" class="submit-btn" [disabled]="!isFormValid()">
+                Create Domain
+            </button>
+        </form>
+    </div>
+</div>

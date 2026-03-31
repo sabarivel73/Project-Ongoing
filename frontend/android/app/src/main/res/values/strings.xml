@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">OfficeWing</string>
+    <string name="title_activity_main">OfficeWing</string>
+    <string name="package_name">com.ns.OfficeWing</string>
+    <string name="custom_url_scheme">com.ns.OfficeWing</string>
+</resources>

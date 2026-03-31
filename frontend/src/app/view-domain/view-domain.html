@@ -1,0 +1,177 @@
+<div class="view-domain-wrapper">
+    <button class="back-link" (click)="goBack()">
+        <span class="material-symbols-rounded">arrow_back</span>
+        Back
+    </button>
+
+    <div class="top-right-actions">
+        <button class="menu-btn" (click)="toggleMenu()" [class.active]="isMenuOpen()">
+            <span class="material-symbols-rounded">menu</span>
+        </button>
+
+        <div class="actions-dropdown" *ngIf="isMenuOpen()">
+            <button class="delete-action-btn" (click)="openConfirmModal(); toggleMenu()">
+                <span class="material-symbols-rounded">delete</span>
+                Delete Domain
+            </button>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <header class="page-header">
+            <div class="domain-badge">
+                <span class="material-symbols-rounded">domain</span>
+                <span class="badge-text">Domain environment</span>
+            </div>
+            <h1 class="welcome-text">Welcome to <span class="domain-name">{{ domainName() }}</span></h1>
+            <p class="subtitle">Environment dashboard and user management</p>
+        </header>
+
+        <div class="status-messages">
+            <div class="message error" *ngIf="errorMessage">
+                <span class="material-symbols-rounded">error</span>
+                {{ errorMessage }}
+            </div>
+            <div class="message success" *ngIf="successMessage">
+                <span class="material-symbols-rounded">check_circle</span>
+                {{ successMessage }}
+            </div>
+        </div>
+
+        <!-- Dashboard Hub -->
+        <div class="dashboard-hub">
+            <div class="hub-section stats">
+                <div class="hub-card stat-item">
+                    <div class="icon-wrapper users">
+                        <span class="material-symbols-rounded">group</span>
+                    </div>
+                    <div class="info">
+                        <span class="value">{{ dashboardData().iamUsers }}</span>
+                        <span class="label">IAM Users</span>
+                    </div>
+                </div>
+
+                <div class="hub-card stat-item">
+                    <div class="icon-wrapper announcements">
+                        <span class="material-symbols-rounded">campaign</span>
+                    </div>
+                    <div class="info">
+                        <span class="value">{{ dashboardData().announcements }}</span>
+                        <span class="label">Announcements</span>
+                    </div>
+                </div>
+
+                <div class="hub-card stat-item">
+                    <div class="icon-wrapper queries">
+                        <span class="material-symbols-rounded">quiz</span>
+                    </div>
+                    <div class="info">
+                        <span class="value">{{ dashboardData().pendingQueries }}</span>
+                        <span class="label">Pending Queries</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hub-divider"></div>
+
+            <div class="hub-section actions">
+                <button class="hub-card action-item" (click)="onCreateIAM()">
+                    <div class="card-left">
+                        <div class="icon-box">
+                            <span class="material-symbols-rounded">person_add</span>
+                        </div>
+                        <div class="text-box">
+                            <h3>Create IAM User</h3>
+                            <p>Add new member access</p>
+                        </div>
+                    </div>
+                    <span class="material-symbols-rounded arrow">arrow_forward</span>
+                </button>
+
+                <button class="hub-card action-item" (click)="onViewIAM()">
+                    <div class="card-left">
+                        <div class="icon-box">
+                            <span class="material-symbols-rounded">person_search</span>
+                        </div>
+                        <div class="text-box">
+                            <h3>View IAM User</h3>
+                            <p>Manage existing members</p>
+                        </div>
+                    </div>
+                    <span class="material-symbols-rounded arrow">arrow_forward</span>
+                </button>
+
+                <button class="hub-card action-item" (click)="onSeeQueries()">
+                    <div class="card-left">
+                        <div class="icon-box">
+                            <span class="material-symbols-rounded">question_answer</span>
+                        </div>
+                        <div class="text-box">
+                            <h3>See All Queries</h3>
+                            <p>Review user queries</p>
+                        </div>
+                    </div>
+                    <span class="material-symbols-rounded arrow">arrow_forward</span>
+                </button>
+
+                <button class="hub-card action-item" (click)="onPostAnnouncement()">
+                    <div class="card-left">
+                        <div class="icon-box">
+                            <span class="material-symbols-rounded">add_alert</span>
+                        </div>
+                        <div class="text-box">
+                            <h3>Post Announcement</h3>
+                            <p>Broadcast new updates</p>
+                        </div>
+                    </div>
+                    <span class="material-symbols-rounded arrow">arrow_forward</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Confirmation Modal Step 1 -->
+    <div class="modal-overlay" *ngIf="showConfirmModal" (click)="closeModals()">
+        <div class="modal-box" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+                <span class="material-symbols-rounded warning-icon">warning</span>
+                <h2>Delete Domain?</h2>
+            </div>
+            <p class="modal-content">Are you want to delete this domain <strong>{{ domainName() }}</strong>?</p>
+            <div class="modal-actions">
+                <button class="modal-btn secondary" (click)="closeModals()">No</button>
+                <button class="modal-btn primary" (click)="proceedToWarning()">Yes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Final Warning Modal Step 2 -->
+    <div class="modal-overlay" *ngIf="showWarningModal" (click)="closeModals()">
+        <div class="modal-box danger" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+                <span class="material-symbols-rounded critical-icon">dangerous</span>
+                <h2>Final Warning</h2>
+            </div>
+            <p class="modal-content">
+                If you deleted this domain all the IAM users and announcement are deleted with this.
+            </p>
+
+            <p class="confirmation-instruction">
+                If you want to delete this domain enter <strong>delete</strong> in this input
+            </p>
+
+            <div class="input-group">
+                <div class="input-wrapper">
+                    <span class="material-symbols-rounded icon">delete_forever</span>
+                    <input type="text" [(ngModel)]="deleteConfirmInput" placeholder="Type 'delete' to confirm">
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="modal-btn secondary" (click)="closeModals()">No</button>
+                <button class="modal-btn delete" [disabled]="deleteConfirmInput.toLowerCase() !== 'delete'"
+                    (click)="onFinalDelete()">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>

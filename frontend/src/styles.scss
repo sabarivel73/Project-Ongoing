@@ -1,0 +1,150 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    width: 100%;
+    background-color: #000;
+    font-family: 'Inter', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.rotating {
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    color: black;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.4));
+}
+
+.download-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* 
+ * Premium Back Button - Mobile Only Refinement
+ * This styles all .back-link buttons across the app for mobile devices.
+ * It fixes the overlap with the status bar/notification panel (notch) using env(safe-area-inset-top).
+ */
+@media (max-width: 768px) {
+    .back-link {
+        /* Removed notch-screen alignment here since the global status-bar-bg handles it perfectly */
+        margin: 16px 16px 24px 16px !important;
+        
+        /* Consistency across different page layouts */
+        position: relative !important;
+        top: 0 !important;
+        left: 0 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        width: fit-content !important;
+        
+        /* Premium Circle Design (Text Removed) - Refined Fit */
+        padding: 0 !important;
+        width: 42px !important;
+        height: 42px !important;
+        border-radius: 50% !important;
+        gap: 0 !important; /* No gap needed since text is gone */
+        background: rgba(255, 255, 255, 0.08) !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        color: #ffffff !important;
+        font-size: 0 !important;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5) !important;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        outline: none !important;
+        -webkit-tap-highlight-color: transparent !important;
+
+        .material-symbols-rounded {
+            font-size: 24px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            transition: transform 0.3s ease !important;
+        }
+
+        &:active {
+            transform: scale(0.9) !important;
+            background: rgba(255, 255, 255, 0.15) !important;
+            
+            .material-symbols-rounded {
+                transform: translateX(-2px) !important;
+            }
+        }
+    }
+}
+
+/* 
+ * Global Native Padding for Capacitor APKs 
+ * A dedicated status bar background layer solves scroll overlap issues seamlessly.
+ */
+.status-bar-bg {
+    display: none;
+}
+
+body.plt-native {
+    /* Prevent body from applying padding, we use app-wrapper instead */
+    padding-top: 0 !important;
+    
+    .status-bar-bg {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: max(env(safe-area-inset-top), 35px);
+        background-color: #000000;
+        z-index: 999999;
+    }
+    
+    /* Push the main application down to sit below the fixed background wall */
+    .app-wrapper {
+        padding-top: max(env(safe-area-inset-top), 35px) !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* Ensure any sticky headers respect the new layout offset natively */
+    .navbar {
+        top: max(env(safe-area-inset-top), 35px) !important;
+    }
+
+    /* Auto-correct centering for 100vh flex wrappers on small content pages */
+    /* Subtracts safe area padding and footer height to restore true vertical centering */
+    .main-content > * > [class$="-wrapper"]:not(.iam-home-wrapper) {
+        min-height: calc(100vh - max(env(safe-area-inset-top), 35px) - 60px) !important;
+    }
+
+    /* Native App Fix: Convert IAM User Home to an absolute native full-screen view */
+    /* This completely eliminates the web-like "page scroll" and locks the footer in place,
+       hides the website copyright footer automatically, and ensures the chat input sticks 
+       right to the top of the keyboard when it is opened. */
+    .iam-home-wrapper {
+        position: fixed !important;
+        top: max(env(safe-area-inset-top), 35px) !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        height: auto !important;
+        min-height: 0 !important;
+        width: 100% !important;
+        z-index: 99 !important;
+        background: #000 !important; /* perfectly covers anything below it */
+    }
+}

@@ -1,0 +1,67 @@
+<div class="view-iam-wrapper">
+    <button class="back-link" (click)="goBack()">
+        <span class="material-symbols-rounded">arrow_back</span>
+        Back
+    </button>
+
+    <div class="main-content">
+        <header class="page-header">
+            <div class="header-content">
+                <div class="title-section">
+                    <h1>IAM Users</h1>
+                    <p class="subtitle">Managing access for <span class="domain-name">{{ domainName }}</span></p>
+                </div>
+
+                <div class="search-section">
+                    <div class="search-box">
+                        <span class="material-symbols-rounded search-icon">search</span>
+                        <input type="text" [(ngModel)]="searchQuery" (keyup.enter)="onSearch()"
+                            placeholder="Search by name...">
+                    </div>
+                    <button class="search-btn" (click)="onSearch()" [disabled]="!searchQuery.trim()">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="users-container">
+            <div class="status-messages" *ngIf="errorMessage">
+                <div class="message error">
+                    <span class="material-symbols-rounded">error</span>
+                    {{ errorMessage }}
+                </div>
+            </div>
+
+            <div class="users-grid" *ngIf="iamUsers().length > 0; else emptyState">
+                <div class="user-card" *ngFor="let user of iamUsers()">
+                    <div class="user-info">
+                        <div class="avatar-box">
+                            <span class="material-symbols-rounded">person</span>
+                        </div>
+                        <div class="text-info">
+                            <h3>{{ user.name }}</h3>
+                            <div class="role-badge">
+                                <span class="material-symbols-rounded">shield_person</span>
+                                {{ user.role }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="edit-btn" (click)="onEditUser(user)">
+                        <span class="material-symbols-rounded">edit</span>
+                        Edit
+                    </button>
+                </div>
+            </div>
+
+            <ng-template #emptyState>
+                <div class="empty-state">
+                    <span class="material-symbols-rounded empty-icon">group_off</span>
+                    <h2>No users found</h2>
+                    <p>Try adjusting your search or add new IAM users to this domain.</p>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>

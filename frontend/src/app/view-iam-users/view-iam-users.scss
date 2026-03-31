@@ -1,0 +1,327 @@
+// Variables
+$bg-color: #000000;
+$card-bg: rgba(20, 20, 20, 0.7);
+$card-border: rgba(255, 255, 255, 0.08);
+$text-primary: #ffffff;
+$text-secondary: #aaaaaa;
+$accent-color: #ffffff;
+$error-color: #ff5252;
+
+:host {
+    display: block;
+    min-height: 100vh;
+    background-color: $bg-color;
+    font-family: 'Inter', sans-serif;
+    color: $text-primary;
+}
+
+.view-iam-wrapper {
+    padding: 2rem;
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.back-link {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    background: transparent;
+    border: none;
+    color: $text-secondary;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0;
+    transition: all 0.2s;
+    z-index: 100;
+
+    &:hover {
+        color: $text-primary;
+        transform: translateX(-4px);
+    }
+
+    span {
+        font-size: 20px;
+    }
+
+    @media (max-width: 1300px) {
+        position: absolute;
+    }
+}
+
+.main-content {
+    padding-top: 4rem;
+}
+
+.page-header {
+    margin-bottom: 3rem;
+    animation: fadeInDown 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 2rem;
+
+        @media (max-width: 900px) {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+
+    h1 {
+        font-size: 2.8rem;
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+        letter-spacing: -0.03em;
+        background: linear-gradient(to bottom, #fff, #888);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+        color: $text-secondary;
+        font-size: 1.1rem;
+
+        .domain-name {
+            color: $text-primary;
+            font-weight: 600;
+        }
+    }
+}
+
+.search-section {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    max-width: 450px;
+
+    .search-box {
+        position: relative;
+        flex: 1;
+        display: flex;
+        align-items: center;
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            color: #555;
+            font-size: 20px;
+        }
+
+        input {
+            width: 100%;
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 12px 14px 12px 44px;
+            color: white;
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s;
+
+            &:focus {
+                border-color: rgba(255, 255, 255, 0.2);
+                background: #111;
+                box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.03);
+            }
+        }
+    }
+
+    .search-btn {
+        background: white;
+        color: black;
+        border: none;
+        padding: 0 1.5rem;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+        &:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        &:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        &:disabled {
+            background: #222;
+            color: #555;
+            cursor: not-allowed;
+            opacity: 0.6;
+            filter: grayscale(1);
+        }
+    }
+}
+
+.users-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+
+    @media (max-width: 450px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.user-card {
+    background: $card-bg;
+    backdrop-filter: blur(20px);
+    border: 1px solid $card-border;
+    border-radius: 20px;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s;
+
+    &:hover {
+        border-color: rgba(255, 255, 255, 0.2);
+        background: rgba(30, 30, 30, 0.8);
+        transform: translateY(-4px);
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+
+        .avatar-box {
+            width: 52px;
+            height: 52px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+
+            span {
+                font-size: 28px;
+            }
+        }
+
+        .text-info {
+            h3 {
+                font-size: 1.1rem;
+                font-weight: 600;
+                margin-bottom: 0.3rem;
+            }
+
+            .role-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 0.8rem;
+                color: $text-secondary;
+                background: rgba(255, 255, 255, 0.03);
+                padding: 4px 10px;
+                border-radius: 6px;
+                font-weight: 500;
+
+                span {
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+
+    .edit-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+            background: white;
+            color: black;
+            border-color: white;
+        }
+
+        span {
+            font-size: 18px;
+        }
+    }
+}
+
+.empty-state {
+    text-align: center;
+    padding: 5rem 2rem;
+
+    .empty-icon {
+        font-size: 80px;
+        color: #222;
+        margin-bottom: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+    }
+
+    p {
+        color: $text-secondary;
+    }
+}
+
+.status-messages {
+    margin-bottom: 2rem;
+
+    .message {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 1rem;
+        border-radius: 12px;
+        justify-content: center;
+
+        &.error {
+            color: $error-color;
+            background: rgba($error-color, 0.1);
+        }
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

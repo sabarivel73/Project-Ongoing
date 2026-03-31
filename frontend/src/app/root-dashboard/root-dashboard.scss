@@ -1,0 +1,483 @@
+// Variables
+$bg-color: #000000;
+$card-bg: #1a1a1a;
+$card-border: rgba(255, 255, 255, 0.12);
+$text-primary: #ffffff;
+$text-secondary: #aaaaaa;
+$accent-color: #ffffff;
+$hub-bg: #161616; // Slightly lighter gray for the hub to make it "visible"
+$hover-effect-bg: rgba(255, 255, 255, 0.05);
+
+:host {
+    display: block;
+    min-height: 100vh;
+    background-color: $bg-color;
+    font-family: 'Inter', sans-serif;
+    color: $text-primary;
+}
+
+.dashboard-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+// Navbar styling
+.navbar {
+    height: 80px;
+    background: #000000; // Use solid black to perfectly match the logo background
+    border-bottom: 1px solid $card-border;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    .nav-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1.5rem;
+    }
+
+    .logo-area {
+        display: flex;
+        align-items: center;
+        background: transparent;
+        padding: 0;
+        border: none;
+    }
+
+    .logo {
+        height: 52px; // Even larger for better visibility
+        width: auto;
+        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.15));
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+        @media (hover: hover) {
+            &:hover {
+                transform: scale(1.08);
+            }
+        }
+    }
+
+    .nav-actions {
+        position: relative;
+    }
+
+    .menu-toggle {
+        background: #141414;
+        border: 1px solid $card-border;
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        -webkit-tap-highlight-color: transparent;
+
+        &.active {
+            background: #222;
+            border-color: #555;
+        }
+
+        @media (hover: hover) {
+            &:hover {
+                background: #222;
+                border-color: #555;
+            }
+        }
+
+        &:active {
+            background: #2a2a2a;
+            transform: scale(0.95);
+        }
+
+        span {
+            font-size: 22px;
+        }
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        top: calc(100% + 12px);
+        right: 0;
+        background: #181818;
+        border: 1px solid $card-border;
+        border-radius: 12px;
+        width: 180px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(8px);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        overflow: hidden;
+
+        &.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            width: 100%;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: none;
+            border: none;
+            color: $text-secondary;
+            font-family: inherit;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+
+            span {
+                font-size: 20px;
+            }
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.08);
+                color: $text-primary;
+            }
+
+            &.logout {
+                color: #ff5252;
+                border-top: 1px solid rgba(255, 255, 255, 0.05);
+
+                &:hover {
+                    background: rgba(255, 82, 82, 0.08);
+                }
+            }
+        }
+    }
+}
+
+// Main Content
+.main-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 3.5rem 1.5rem;
+    box-sizing: border-box;
+}
+
+.page-header {
+    margin-bottom: 3rem;
+    text-align: center;
+
+    .user-greeting {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 6px 16px;
+        border-radius: 100px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 1.5rem;
+        animation: fadeInDown 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+
+        .greeting-icon {
+            font-size: 1.2rem;
+        }
+
+        .greeting-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: $text-secondary;
+
+            .username {
+                color: white;
+                font-weight: 700;
+                text-transform: capitalize;
+            }
+        }
+    }
+
+    .welcome-text {
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        letter-spacing: -0.01em;
+    }
+
+    .subtitle {
+        color: $text-secondary;
+        font-size: 1rem;
+        opacity: 0.7;
+    }
+}
+
+// Refined Dashboard Hub
+.dashboard-hub {
+    background: $hub-bg;
+    border: 1px solid $card-border;
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.4s ease;
+
+    .hub-section {
+        padding: 2.5rem;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+
+        &.stats {
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid $card-border;
+        }
+
+        &.actions {
+            background: rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    .hub-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 24px;
+        padding: 1.8rem;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+        overflow: hidden;
+
+        // Universal High-End Highlight (Stat and Action items)
+        &:active {
+            background: rgba(255, 255, 255, 0.12) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+
+            .icon-wrapper,
+            .icon-box {
+                background: white !important;
+
+                span {
+                    color: black !important;
+                }
+            }
+        }
+
+        // Desktop Hover Effects
+        @media (hover: hover) {
+            &:hover {
+                background: rgba(255, 255, 255, 0.08);
+                border-color: rgba(255, 255, 255, 0.2);
+                transform: translateY(-4px);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+
+                .icon-wrapper,
+                .icon-box {
+                    transform: scale(1.1);
+                    background: white !important;
+
+                    span {
+                        color: black !important;
+                    }
+                }
+            }
+        }
+
+        &.stat-item {
+            gap: 1.5rem;
+
+            .icon-wrapper {
+                width: 56px;
+                height: 56px;
+                border-radius: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(255, 255, 255, 0.05);
+                transition: all 0.3s;
+
+                &.domains {
+                    color: #3498db;
+                    background: rgba(52, 152, 219, 0.1);
+                }
+
+                &.users {
+                    color: #2ecc71;
+                    background: rgba(46, 204, 113, 0.1);
+                }
+
+                span {
+                    font-size: 28px;
+                }
+            }
+
+            .info {
+                display: flex;
+                flex-direction: column;
+
+                .value {
+                    font-size: 1.8rem;
+                    font-weight: 700;
+                    line-height: 1.2;
+                }
+
+                .label {
+                    font-size: 0.8rem;
+                    color: $text-secondary;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 0.06em;
+                    margin-top: 2px;
+                }
+            }
+        }
+
+        &.action-item {
+            justify-content: space-between;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+            outline: none;
+            border-style: solid;
+
+            .card-left {
+                display: flex;
+                align-items: center;
+                gap: 1.5rem;
+            }
+
+            .icon-box {
+                width: 60px;
+                height: 60px;
+                border-radius: 16px;
+                background: rgba(255, 255, 255, 0.06);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s;
+
+                span {
+                    font-size: 30px;
+                    color: white;
+                }
+            }
+
+            .text-box {
+                h3 {
+                    font-size: 1.15rem;
+                    font-weight: 600;
+                    margin-bottom: 0.3rem;
+                    color: white;
+                }
+
+                p {
+                    font-size: 0.9rem;
+                    color: $text-secondary;
+                }
+            }
+
+            .arrow {
+                color: rgba(255, 255, 255, 0.2);
+                font-size: 24px;
+                transition: all 0.3s;
+            }
+
+            @media (hover: hover) {
+                &:hover {
+                    .arrow {
+                        transform: translateX(6px);
+                        color: white;
+                    }
+                }
+            }
+
+            &:active .arrow {
+                color: white;
+                transform: translateX(4px);
+            }
+        }
+    }
+}
+
+// Mobile Responsive
+@media (max-width: 768px) {
+    .navbar {
+        height: 70px; // Shorter navbar for mobile
+
+        .logo-area {
+            padding: 0;
+            background: transparent;
+            border: none;
+        }
+
+        .logo {
+            height: 32px; // Revert to original size for mobile
+        }
+    }
+
+    .main-content {
+        padding: 2rem 1rem;
+    }
+
+    .page-header {
+        margin-bottom: 2rem;
+
+        .welcome-text {
+            font-size: 1.8rem;
+        }
+    }
+
+    .dashboard-hub {
+        border-radius: 24px; // Slightly more rounded for mobile feel
+
+        .hub-section {
+            grid-template-columns: 1fr;
+            padding: 1.25rem; // Tighter padding
+            gap: 0.75rem;
+        }
+
+        .hub-card {
+            padding: 1.25rem;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            cursor: pointer;
+            transform: none !important; // Prevent any shifting on mobile
+
+            &.stat-item {
+                .info .value {
+                    font-size: 1.5rem;
+                }
+            }
+
+            &.action-item {
+                .icon-box {
+                    width: 48px;
+                    height: 48px;
+
+                    span {
+                        font-size: 22px;
+                    }
+                }
+
+                .text-box h3 {
+                    font-size: 1rem;
+                }
+            }
+        }
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

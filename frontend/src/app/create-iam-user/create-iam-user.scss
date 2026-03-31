@@ -1,0 +1,322 @@
+// Variables
+$bg-color: #000000;
+$input-bg: #121212;
+$input-border: #333333;
+$text-primary: #ffffff;
+$text-secondary: #aaaaaa;
+$accent-color: #ffffff;
+$btn-text: #000000;
+$font-family: 'Inter', sans-serif;
+$error-color: #ff5252;
+$success-color: #4caf50;
+
+:host {
+    display: block;
+    font-family: $font-family;
+    background-color: $bg-color;
+    min-height: 100vh;
+    color: $text-primary;
+}
+
+.create-iam-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 2rem;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.05), transparent);
+}
+
+.back-link {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: $text-secondary;
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    z-index: 10;
+
+    &:hover {
+        color: $text-primary;
+        transform: translateX(-3px);
+    }
+
+    span {
+        font-size: 20px;
+    }
+
+    @media (max-width: 768px) {
+        top: 1.5rem;
+        left: 1.5rem;
+    }
+}
+
+.create-iam-card {
+    width: 100%;
+    max-width: 500px;
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(24px);
+    padding: 3.5rem;
+    border-radius: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.7);
+    animation: cardAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.logo-section {
+    margin-bottom: 2.5rem;
+    text-align: center;
+
+    .logo-icon {
+        font-size: 64px;
+        background: linear-gradient(135deg, #fff 0%, #888 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.05));
+    }
+}
+
+.header {
+    margin-bottom: 3rem;
+    text-align: center;
+
+    h1 {
+        font-size: 2.4rem;
+        font-weight: 700;
+        margin-bottom: 0.6rem;
+        letter-spacing: -0.03em;
+        background: linear-gradient(to bottom, #fff, #bbb);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+        color: #777;
+        font-size: 1rem;
+
+        .domain-highlight {
+            color: $accent-color;
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+    }
+}
+
+.iam-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+
+    label {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: $text-secondary;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .input-icon {
+        position: absolute;
+        left: 16px;
+        color: $text-secondary;
+        font-size: 20px;
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    input {
+        width: 100%;
+        background-color: #0c0c0c;
+        border: 1px solid #1a1a1a;
+        border-radius: 14px;
+        padding: 16px 16px 16px 52px;
+        color: rgba(255, 255, 255, 0.9);
+        font-family: inherit;
+        font-size: 1rem;
+        outline: none;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        appearance: none;
+        -webkit-appearance: none;
+
+        &::placeholder {
+            color: #333;
+        }
+
+        &:focus {
+            border-color: rgba(255, 255, 255, 0.15);
+            background: #111;
+            box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.02);
+        }
+    }
+}
+
+.disclaimer {
+    color: #ff5252;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    padding-left: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    animation: fadeIn 0.3s ease;
+
+    &::before {
+        content: "error";
+        font-family: 'Material Symbols Rounded';
+        font-size: 16px;
+    }
+}
+
+.password-requirements-grid {
+    margin-top: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem 1.5rem;
+    background: #0a0a0a; // Very dark background like image
+    padding: 1.5rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+
+    .req-item {
+        font-size: 0.9rem;
+        color: #444; // Dimmed text for unmet
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        transition: all 0.3s ease;
+
+        .req-check {
+            font-size: 20px;
+            color: #333; // Dimmed check for unmet
+        }
+
+        &.met {
+            color: rgba(255, 255, 255, 0.8);
+
+            .req-check {
+                color: $success-color;
+            }
+        }
+    }
+
+    @media (max-width: 400px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.status-messages {
+    .message {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 1rem;
+        border-radius: 12px;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+        animation: fadeIn 0.3s ease;
+
+        &.error {
+            color: $error-color;
+            background: rgba($error-color, 0.08);
+            border: 1px solid rgba($error-color, 0.15);
+        }
+
+        &.success {
+            color: $success-color;
+            background: rgba($success-color, 0.08);
+            border: 1px solid rgba($success-color, 0.15);
+        }
+
+        span {
+            font-size: 18px;
+        }
+    }
+}
+
+.submit-btn {
+    width: 100%;
+    background-color: $accent-color;
+    color: $btn-text;
+    border: none;
+    border-radius: 14px;
+    padding: 16px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    margin-top: 1rem;
+
+    &:disabled {
+        background-color: #222;
+        color: #555;
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    &:not(:disabled):hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    &:not(:disabled):active {
+        transform: translateY(0);
+    }
+}
+
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 500px) {
+    .create-iam-card {
+        padding: 2rem 1.5rem;
+        border-radius: 24px;
+    }
+
+    .header h1 {
+        font-size: 1.8rem;
+    }
+}

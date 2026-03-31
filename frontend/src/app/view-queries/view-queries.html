@@ -1,0 +1,156 @@
+<div class="view-queries-wrapper">
+    <button class="back-link" (click)="goBack()">
+        <span class="material-symbols-rounded">arrow_back</span>
+        Back
+    </button>
+
+    <main class="main-content">
+        <header class="page-header">
+            <div class="context-badge">
+                <span class="material-symbols-rounded">chat</span>
+                <span class="badge-text">Queries Management</span>
+            </div>
+            <h1 class="welcome-text">Queries - <span class="domain-name">{{ domainName }}</span></h1>
+
+            <div class="filter-wrapper">
+                <div class="filter-controls">
+                    <button class="filter-btn" [class.active]="filterMode === 'all'" (click)="setFilter('all')">
+                        <span class="material-symbols-rounded">question_answer</span>
+                        All Queries
+                    </button>
+                    <button class="filter-btn" [class.active]="filterMode === 'pending'" (click)="setFilter('pending')">
+                        <span class="material-symbols-rounded">pending_actions</span>
+                        Yet to Response
+                    </button>
+                    <button class="filter-btn" [class.active]="filterMode === 'responded'"
+                        (click)="setFilter('responded')">
+                        <span class="material-symbols-rounded">task_alt</span>
+                        Responded
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="status-messages" *ngIf="(errorMessage || successMessage) && !showResponseModal">
+            <div class="message error" *ngIf="errorMessage">
+                <span class="material-symbols-rounded">error</span>
+                {{ errorMessage }}
+            </div>
+            <div class="message success" *ngIf="successMessage">
+                <span class="material-symbols-rounded">check_circle</span>
+                {{ successMessage }}
+            </div>
+        </div>
+
+        <div class="queries-list" *ngIf="queries().length > 0; else noQueries">
+            <div class="query-box" *ngFor="let q of queries()">
+                <div class="query-header">
+                    <div class="sender-info">
+                        <span class="material-symbols-rounded sender-icon">person</span>
+                        <div class="sender-meta">
+                            <span class="sender-name">{{ q.sender_name }}</span>
+                            <span class="timestamp">{{ formatTimestamp(q.timestamp) }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="query-content">
+                    <p>{{ q.query }}</p>
+                </div>
+
+                <div class="query-footer">
+                    <div class="response-status" *ngIf="q.response">
+                        <span class="status-label">Response:</span>
+                        <p class="response-text">{{ q.response }}</p>
+                    </div>
+
+                    <button class="response-btn" *ngIf="!q.response" (click)="onResponse(q)">
+                        <span class="material-symbols-rounded">reply</span>
+                        Response
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <ng-template #noQueries>
+            <div class="empty-state">
+                <span class="material-symbols-rounded empty-icon">sentiment_dissatisfied</span>
+                <p>No queries found for this category.</p>
+            </div>
+        </ng-template>
+    </main>
+
+    <!-- Popup 1: Response Input -->
+    <div class="modal-overlay" *ngIf="showResponseModal" (click)="closeModals()">
+        <div class="modal-box response-modal" (click)="$event.stopPropagation()">
+            <header class="modal-header">
+                <div class="header-main">
+                    <span class="material-symbols-rounded header-icon">chat</span>
+                    <div class="header-text">
+                        <h2>Response to {{ selectedQuery?.sender_name }}</h2>
+                        <span class="modal-timestamp">{{ formatTimestamp(selectedQuery?.timestamp || '') }}</span>
+                    </div>
+                </div>
+                <button class="close-btn" (click)="closeModals()">
+                    <span class="material-symbols-rounded">close</span>
+                </button>
+            </header>
+
+            <div class="modal-body">
+                <div class="original-query-box">
+                    <span class="box-label">Original Query</span>
+                    <p class="query-text">{{ selectedQuery?.query }}</p>
+                </div>
+
+                <div class="response-input-area">
+                    <span class="box-label">Your Response</span>
+                    <div class="textarea-wrapper">
+                        <textarea [(ngModel)]="responseText" placeholder="Type your response here..."
+                            rows="4"></textarea>
+                    </div>
+                </div>
+
+                <div class="modal-status" *ngIf="errorMessage || successMessage">
+                    <div class="message error" *ngIf="errorMessage">
+                        <span class="material-symbols-rounded">error</span>
+                        {{ errorMessage }}
+                    </div>
+                    <div class="message success" *ngIf="successMessage">
+                        <span class="material-symbols-rounded">check_circle</span>
+                        {{ successMessage }}
+                    </div>
+                </div>
+            </div>
+
+            <footer class="modal-footer">
+                <button class="modal-btn secondary" (click)="closeModals()">Close</button>
+                <button class="modal-btn primary" [disabled]="!responseText.trim()" (click)="onConfirmResponse()">
+                    <span class="material-symbols-rounded">reply</span>
+                    Response
+                </button>
+            </footer>
+        </div>
+
+        <!-- Popup 2: Confirmation -->
+        <div class="modal-overlay confirm-overlay" *ngIf="showConfirmModal" (click)="closeConfirm()">
+            <div class="modal-box confirm-modal" (click)="$event.stopPropagation()">
+                <header class="modal-header warning">
+                    <span class="material-symbols-rounded warning-icon">priority_high</span>
+                    <h2>Final Confirmation</h2>
+                </header>
+
+                <div class="modal-body">
+                    <p class="warning-text">You can response this query for only once.</p>
+                    <p class="question-text">Are you sure to send this response?</p>
+                </div>
+
+                <footer class="modal-actions">
+                    <button class="modal-btn secondary" (click)="closeConfirm()">No</button>
+                    <button class="modal-btn primary" (click)="onSendResponse()">
+                        Send Response
+                    </button>
+                </footer>
+            </div>
+        </div>
+    </div>
+</div>
