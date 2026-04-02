@@ -15,10 +15,10 @@ public class S3Config {
     @Value("${spring.aws.region}") private String region;
 
     @Bean public S3Client s3Client() {
-        AwsBasicCredentials credentials = AwsBasicCredentials.create(access_key,secret_key);
+        //AwsBasicCredentials credentials = AwsBasicCredentials.create(access_key,secret_key);
         return S3Client.builder()
                 .region(Region.of(region))
-                .credentialsProvider(StaticCredentialsProvider.create(credentials))
+                //.credentialsProvider(StaticCredentialsProvider.create(credentials))
                 .build();
     }
 }
